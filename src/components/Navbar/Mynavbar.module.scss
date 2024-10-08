@@ -1,0 +1,13 @@
+.navbar {
+  background-color: aqua;
+  &__profileDropdown {
+    cursor: pointer;
+  }
+  &__profileImage {
+    object-fit: cover;
+    border: 2px solid #fff;
+  }
+  &__navLinks {
+    gap: 3rem;
+  }
+}
