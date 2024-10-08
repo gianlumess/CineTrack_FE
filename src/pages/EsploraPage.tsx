@@ -1,6 +1,6 @@
 import Mynavbar from "../components/Navbar/Mynavbar";
 
-const Esplora = () => {
+const EsploraPage = () => {
   return (
     <>
       <Mynavbar />
@@ -9,4 +9,4 @@ const Esplora = () => {
   );
 };
 
-export default Esplora;
+export default EsploraPage;
