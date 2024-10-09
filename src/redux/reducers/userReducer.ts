@@ -1,5 +1,5 @@
 import { IuserState, UserAction } from "../../interfaces/UserInterfaces";
-import { GET_TOKEN_FROM_LOGIN, UPDATE_EMAIL_AFTER_REGISTRATION } from "../actions/userActions";
+import { GET_TOKEN_FROM_LOGIN, SAVE_USER_DATA, UPDATE_EMAIL_AFTER_REGISTRATION } from "../actions/userActions";
 
 const initialState: IuserState = {
   id: "",
@@ -23,6 +23,11 @@ const userReducer = (state = initialState, action: UserAction) => {
       return {
         ...state,
         token: action.payload,
+      };
+    case SAVE_USER_DATA:
+      return {
+        ...state,
+        ...action.payload,
       };
     default:
       return state;

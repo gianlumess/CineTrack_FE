@@ -31,7 +31,7 @@ const LoginPage = () => {
         navigate("/");
       } else {
         const errorMessage = await response.json();
-        setError(errorMessage.message || "errore durante la registrazione");
+        setError(errorMessage.message || "errore durante il login");
       }
     } catch (error) {
       console.log(error);

@@ -1,5 +1,6 @@
-import { GET_TOKEN_FROM_LOGIN, UPDATE_EMAIL_AFTER_REGISTRATION } from "../redux/actions/userActions";
+import { GET_TOKEN_FROM_LOGIN, SAVE_USER_DATA, UPDATE_EMAIL_AFTER_REGISTRATION } from "../redux/actions/userActions";
 
+//INTERFACE CHE RISPECCHIA LO STATO DELL'USER NELLO STORE
 export interface IuserState {
   id: string;
   username: string;
@@ -11,6 +12,17 @@ export interface IuserState {
   creationDate: string;
 }
 
+export interface UserDataResponse {
+  id: string;
+  username: string;
+  name: string;
+  surname: string;
+  email: string;
+  avatar: string;
+  creationDate: string;
+}
+
+//INTERFACE PER I DATI DA IMMETTERE PER LA REGISTRAZIONE DI UN UTENTE
 export interface DataRegistration {
   username: string;
   name: string;
@@ -18,7 +30,7 @@ export interface DataRegistration {
   email: string;
   password: string;
 }
-
+//INTERFACE PER I DATI DA IMMETTERE PER IL LOGIN DI UN UTENTE
 export interface DataLogin {
   email: string;
   password: string;
@@ -34,4 +46,9 @@ export interface LoginAction {
   payload: string;
 }
 
-export type UserAction = RegistrationAction | LoginAction;
+export interface SaveUserDataAction {
+  type: typeof SAVE_USER_DATA;
+  payload: UserDataResponse;
+}
+
+export type UserAction = RegistrationAction | LoginAction | SaveUserDataAction;
