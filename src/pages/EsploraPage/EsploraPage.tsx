@@ -1,4 +1,4 @@
-import Mynavbar from "../components/Navbar/Mynavbar";
+import Mynavbar from "../../components/Navbar/Mynavbar";
 
 const EsploraPage = () => {
   return (
