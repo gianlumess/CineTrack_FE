@@ -9,6 +9,7 @@ const RegistrationPage = () => {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = () => {
     const dataRegistration: DataRegistration = { username, name, surname, email, password };
@@ -27,6 +28,9 @@ const RegistrationPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+      } else {
+        const errorMessage = await response.json();
+        setError(errorMessage.message || "errore durante la registrazione");
       }
     } catch (err) {
       console.log(err);
@@ -51,6 +55,7 @@ const RegistrationPage = () => {
                 placeholder="Enter Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </Form.Group>
 
@@ -61,6 +66,7 @@ const RegistrationPage = () => {
                 placeholder="Enter Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
               />
             </Form.Group>
 
@@ -71,6 +77,7 @@ const RegistrationPage = () => {
                 placeholder="Enter Surname"
                 value={surname}
                 onChange={(e) => setSurname(e.target.value)}
+                required
               />
             </Form.Group>
 
@@ -81,6 +88,7 @@ const RegistrationPage = () => {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </Form.Group>
 
@@ -91,11 +99,10 @@ const RegistrationPage = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
+            {error && <p className="text-danger">{error}</p>}
             <Button variant="primary" type="submit">
               Submit
             </Button>
