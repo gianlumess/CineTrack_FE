@@ -1,4 +1,4 @@
-import { UPDATE_EMAIL_AFTER_REGISTRATION } from "../redux/actions/userActions";
+import { GET_TOKEN_FROM_LOGIN, UPDATE_EMAIL_AFTER_REGISTRATION } from "../redux/actions/userActions";
 
 export interface IuserState {
   id: string;
@@ -20,9 +20,19 @@ export interface DataRegistration {
   password: string;
 }
 
-export interface RegistrationAction {
-  type: typeof UPDATE_EMAIL_AFTER_REGISTRATION; // Il tipo dell'azione
-  payload: string; // Il token ricevuto dal backend
+export interface DataLogin {
+  email: string;
+  password: string;
 }
 
-export type UserAction = RegistrationAction;
+export interface RegistrationAction {
+  type: typeof UPDATE_EMAIL_AFTER_REGISTRATION; // Il tipo dell'azione
+  payload: string;
+}
+
+export interface LoginAction {
+  type: typeof GET_TOKEN_FROM_LOGIN;
+  payload: string;
+}
+
+export type UserAction = RegistrationAction | LoginAction;
