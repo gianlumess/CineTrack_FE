@@ -9,7 +9,6 @@ export interface IuserState {
   password: string;
   avatar: string;
   creationDate: string;
-  token: string;
 }
 
 export interface DataRegistration {

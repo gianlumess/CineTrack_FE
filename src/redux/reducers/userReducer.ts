@@ -10,7 +10,6 @@ const initialState: IuserState = {
   password: "",
   avatar: "",
   creationDate: "",
-  token: "",
 };
 
 const userReducer = (state = initialState, action: UserAction) => {

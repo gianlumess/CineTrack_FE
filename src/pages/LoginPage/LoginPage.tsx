@@ -2,8 +2,10 @@ import { useState } from "react";
 import { DataLogin } from "../../interfaces/UserInterfaces";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "./LoginPage.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -26,6 +28,7 @@ const LoginPage = () => {
         const data = await response.json();
         console.log(data);
         localStorage.setItem("token", data.token); //salva il token nel localStorage
+        navigate("/");
       } else {
         const errorMessage = await response.json();
         setError(errorMessage.message || "errore durante la registrazione");
