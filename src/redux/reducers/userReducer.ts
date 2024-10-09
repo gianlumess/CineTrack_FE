@@ -2,17 +2,15 @@ import { IuserState, UserAction } from "../../interfaces/UserInterfaces";
 import { UPDATE_EMAIL_AFTER_REGISTRATION } from "../actions/userActions";
 
 const initialState: IuserState = {
-  user: {
-    id: "",
-    username: "",
-    name: "",
-    surname: "",
-    email: "",
-    password: "",
-    avatar: "",
-    creationDate: "",
-    token: "",
-  },
+  id: "",
+  username: "",
+  name: "",
+  surname: "",
+  email: "",
+  password: "",
+  avatar: "",
+  creationDate: "",
+  token: "",
 };
 
 const userReducer = (state = initialState, action: UserAction) => {
@@ -22,6 +20,8 @@ const userReducer = (state = initialState, action: UserAction) => {
         ...state,
         email: action.payload,
       };
+    default:
+      return state;
   }
 };
 
