@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { useDispatch } from "react-redux";
 import { UserDataResponse } from "../../interfaces/UserInterfaces";
 import { saveUserDataAction } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "../../components/MovieCard/MovieCard";
+import HeroBanner from "../../components/HeroBanner/HeroBanner";
+import { Container } from "react-bootstrap";
 
 const EsploraPage = () => {
   const navigate = useNavigate();
@@ -31,6 +33,22 @@ const EsploraPage = () => {
     }
   };
 
+  const getPopularMoviesFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/trending`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data.result;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -44,8 +62,10 @@ const EsploraPage = () => {
   return (
     <>
       <Mynavbar />
-      <h1>ESPLORA</h1>
-      <MovieCard />
+      <HeroBanner />
+      <Container>
+        <MovieCard />
+      </Container>
     </>
   );
 };
