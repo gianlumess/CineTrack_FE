@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import { Container } from "react-bootstrap";
+import { setTrendingMoviesAction } from "../../redux/actions/moviesActions";
+import { Imovie } from "../../interfaces/MoviesInterface";
 
 const EsploraPage = () => {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const EsploraPage = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        return data.result;
+        dispatch(setTrendingMoviesAction(data.results));
       }
     } catch (error) {
       console.log(error);
@@ -54,6 +56,7 @@ const EsploraPage = () => {
 
     if (token) {
       getUserDataFetch(token);
+      getPopularMoviesFetch(token);
     } else {
       navigate("/login");
     }

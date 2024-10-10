@@ -1,3 +1,9 @@
+import { SET_TRENDING_MOVIES } from "../redux/actions/moviesActions";
+
+export interface ImovieState {
+  trendingMovies: Imovie[];
+}
+
 export interface Imovie {
   backdrop_path: string;
   id: number;
@@ -15,3 +21,11 @@ export interface Imovie {
   vote_average: number;
   vote_count: string;
 }
+
+//ACTIONS
+export interface SetTrendingMoviesAction {
+  type: typeof SET_TRENDING_MOVIES;
+  payload: Imovie[];
+}
+
+export type MoviesAction = SetTrendingMoviesAction;
