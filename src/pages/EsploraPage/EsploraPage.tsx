@@ -8,7 +8,7 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import { Container } from "react-bootstrap";
 import { setTrendingMoviesAction } from "../../redux/actions/moviesActions";
-import { Imovie } from "../../interfaces/MoviesInterface";
+import { setTrendingSeriesAction } from "../../redux/actions/seriesActions";
 
 const EsploraPage = () => {
   const navigate = useNavigate();
@@ -51,12 +51,29 @@ const EsploraPage = () => {
     }
   };
 
+  const getPopularSeriesFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/trending`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(setTrendingSeriesAction(data.results));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
       getUserDataFetch(token);
       getPopularMoviesFetch(token);
+      getPopularSeriesFetch(token);
     } else {
       navigate("/login");
     }

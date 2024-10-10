@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "../reducers/userReducer";
 import movieReducer from "../reducers/moviesReducer";
+import seriesReducer from "../reducers/seriesReducer";
 
 const rootReducer = combineReducers({
   user: userReducer,
   movies: movieReducer,
+  series: seriesReducer,
 });
 
 const store = configureStore({
