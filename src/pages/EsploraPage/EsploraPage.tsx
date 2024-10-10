@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { useDispatch } from "react-redux";
 import { UserDataResponse } from "../../interfaces/UserInterfaces";
 import { saveUserDataAction } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
 const EsploraPage = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const EsploraPage = () => {
     <>
       <Mynavbar />
       <h1>ESPLORA</h1>
+      <MovieCard />
     </>
   );
 };

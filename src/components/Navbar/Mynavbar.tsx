@@ -11,8 +11,12 @@ import {
   NavLink,
 } from "react-bootstrap";
 import styles from "./Mynavbar.module.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 
 const Mynavbar = () => {
+  const userData = useSelector((state: RootState) => state.user);
+
   return (
     <Navbar expand="lg" className={`bg-body-tertiary ${styles.navbar}`}>
       <Container>
@@ -32,7 +36,7 @@ const Mynavbar = () => {
               className={`d-flex align-items-center ${styles.navbar__profileDropdown}`}
             >
               <Image
-                src="https://via.placeholder.com/40"
+                src={userData.avatar}
                 roundedCircle
                 width={40}
                 height={40}
