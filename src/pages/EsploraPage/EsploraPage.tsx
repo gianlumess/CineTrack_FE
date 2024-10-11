@@ -8,7 +8,7 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import { Container } from "react-bootstrap";
 import { setTopRatedMoviesAction, setTrendingMoviesAction } from "../../redux/actions/moviesActions";
-import { setTrendingSeriesAction } from "../../redux/actions/seriesActions";
+import { setTopRatedSeriesAction, setTrendingSeriesAction } from "../../redux/actions/seriesActions";
 
 const EsploraPage = () => {
   const navigate = useNavigate();
@@ -83,6 +83,22 @@ const EsploraPage = () => {
     }
   };
 
+  const getTopRatedSeriesFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/top_rated`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(setTopRatedSeriesAction(data.results));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -91,6 +107,7 @@ const EsploraPage = () => {
       getPopularMoviesFetch(token);
       getPopularSeriesFetch(token);
       getTopRatedMoviesFetch(token);
+      getTopRatedSeriesFetch(token);
     } else {
       navigate("/login");
     }

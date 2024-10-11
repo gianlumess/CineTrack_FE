@@ -1,7 +1,8 @@
-import { SET_TRENDING_SERIES } from "../redux/actions/seriesActions";
+import { SET_TOP_RATED_SERIES, SET_TRENDING_SERIES } from "../redux/actions/seriesActions";
 
 export interface IseriesState {
   trendingSeries: Iseries[];
+  topRatedSeries: Iseries[];
 }
 
 export interface Iseries {
@@ -28,4 +29,9 @@ export interface SetTrendingSeriesAction {
   payload: Iseries[];
 }
 
-export type SeriesAction = SetTrendingSeriesAction;
+export interface SetTopRatedSeriesAction {
+  type: typeof SET_TOP_RATED_SERIES;
+  payload: Iseries[];
+}
+
+export type SeriesAction = SetTrendingSeriesAction | SetTopRatedSeriesAction;
