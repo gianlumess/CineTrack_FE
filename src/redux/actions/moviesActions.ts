@@ -2,6 +2,7 @@ import { Imovie } from "../../interfaces/MoviesInterface";
 
 export const SET_TRENDING_MOVIES = "SET_TRENDING_MOVIES";
 export const SET_TOP_RATED_MOVIES = "SET_TOP_RATED_MOVIES";
+export const SET_SEARCHED_MOVIES = "SET_SEARCHED_MOVIES";
 
 export const setTrendingMoviesAction = (movies: Imovie[]) => {
   return {
@@ -13,6 +14,13 @@ export const setTrendingMoviesAction = (movies: Imovie[]) => {
 export const setTopRatedMoviesAction = (movies: Imovie[]) => {
   return {
     type: SET_TOP_RATED_MOVIES,
+    payload: movies,
+  };
+};
+
+export const setSearchedMoviesAction = (movies: Imovie[]) => {
+  return {
+    type: SET_SEARCHED_MOVIES,
     payload: movies,
   };
 };

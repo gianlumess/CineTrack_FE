@@ -1,8 +1,9 @@
-import { SET_TOP_RATED_MOVIES, SET_TRENDING_MOVIES } from "../redux/actions/moviesActions";
+import { SET_SEARCHED_MOVIES, SET_TOP_RATED_MOVIES, SET_TRENDING_MOVIES } from "../redux/actions/moviesActions";
 
 export interface ImovieState {
   trendingMovies: Imovie[];
   topRatedMovies: Imovie[];
+  searchedMovies: Imovie[];
 }
 
 export interface Imovie {
@@ -34,4 +35,9 @@ export interface SetTopRatedMoviesAction {
   payload: Imovie[];
 }
 
-export type MoviesAction = SetTrendingMoviesAction | SetTopRatedMoviesAction;
+export interface SetSearchedMoviesAction {
+  type: typeof SET_SEARCHED_MOVIES;
+  payload: Imovie[];
+}
+
+export type MoviesAction = SetTrendingMoviesAction | SetTopRatedMoviesAction | SetSearchedMoviesAction;
