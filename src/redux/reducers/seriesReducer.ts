@@ -1,9 +1,10 @@
 import { IseriesState, SeriesAction } from "../../interfaces/SeriesInterface";
-import { SET_TOP_RATED_SERIES, SET_TRENDING_SERIES } from "../actions/seriesActions";
+import { SET_SEARCHED_SERIES, SET_TOP_RATED_SERIES, SET_TRENDING_SERIES } from "../actions/seriesActions";
 
 const initialState: IseriesState = {
   trendingSeries: [],
   topRatedSeries: [],
+  searchedSeries: [],
 };
 
 const seriesReducer = (state = initialState, action: SeriesAction) => {
@@ -17,6 +18,11 @@ const seriesReducer = (state = initialState, action: SeriesAction) => {
       return {
         ...state,
         topRatedSeries: action.payload,
+      };
+    case SET_SEARCHED_SERIES:
+      return {
+        ...state,
+        searchedSeries: action.payload,
       };
     default:
       return state;

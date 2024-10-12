@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { setSearchedMoviesAction } from "../../redux/actions/moviesActions";
 import { useState } from "react";
+import { setSearchedSeriesAction } from "../../redux/actions/seriesActions";
 
 const Mynavbar = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,22 @@ const Mynavbar = () => {
     }
   };
 
+  const getSearchedSeriesFetch = async (token: string, query: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/search?query=${query}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(setSearchedSeriesAction(data.results));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Navbar expand="lg" className={`bg-body-tertiary ${styles.navbar}`}>
       <Container>
@@ -59,6 +76,7 @@ const Mynavbar = () => {
             onSubmit={(e) => {
               e.preventDefault();
               getSearchedMoviesFetch(token, searchQuery);
+              getSearchedSeriesFetch(token, searchQuery);
             }}
           >
             <Row>
