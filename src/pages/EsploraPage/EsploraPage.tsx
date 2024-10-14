@@ -19,6 +19,7 @@ const EsploraPage = () => {
   const trendingMovies = useSelector((state: RootState) => state.movies.trendingMovies);
   const topRatedMovies = useSelector((state: RootState) => state.movies.topRatedMovies);
   const trendingSeries = useSelector((state: RootState) => state.series.trendingSeries);
+  const topRatedSeries = useSelector((state: RootState) => state.series.topRatedSeries);
 
   const getUserDataFetch = async (token: string) => {
     try {
@@ -114,7 +115,7 @@ const EsploraPage = () => {
     } else {
       navigate("/login");
     }
-  }, []);
+  }, [token]);
 
   return (
     <>
@@ -127,6 +128,8 @@ const EsploraPage = () => {
         <MovieCard content={topRatedMovies} />
         <h2 className="mb-4 d-inline-block">Serie di tendenza</h2>
         <MovieCard content={trendingSeries} />
+        <h2 className="mb-4 d-inline-block">Serie più votate</h2>
+        <MovieCard content={topRatedSeries} />
       </Container>
     </>
   );
