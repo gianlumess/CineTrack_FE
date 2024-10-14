@@ -12,6 +12,7 @@ import { setTopRatedSeriesAction, setTrendingSeriesAction } from "../../redux/ac
 import { RootState } from "../../redux/store/store";
 
 const EsploraPage = () => {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState("");
@@ -104,8 +105,6 @@ const EsploraPage = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     if (token) {
       getUserDataFetch(token);
       getPopularMoviesFetch(token);
@@ -115,15 +114,18 @@ const EsploraPage = () => {
     } else {
       navigate("/login");
     }
-  });
+  }, []);
 
   return (
     <>
       <Mynavbar />
       <HeroBanner />
       <Container>
+        <h2 className="mb-4 d-inline-block">Film di tendenza</h2>
         <MovieCard content={trendingMovies} />
+        <h2 className="mb-4 d-inline-block">Film più votati</h2>
         <MovieCard content={topRatedMovies} />
+        <h2 className="mb-4 d-inline-block">Serie di tendenza</h2>
         <MovieCard content={trendingSeries} />
       </Container>
     </>
