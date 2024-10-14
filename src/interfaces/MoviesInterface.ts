@@ -3,7 +3,6 @@ import {
   SET_SEARCHED_MOVIES,
   SET_TOP_RATED_MOVIES,
   SET_TRENDING_MOVIES,
-  setMovieDetailsAction,
 } from "../redux/actions/moviesActions";
 import { Iseries } from "./SeriesInterface";
 
