@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Mynavbar from "../../components/Navbar/Mynavbar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserDataResponse } from "../../interfaces/UserInterfaces";
 import { saveUserDataAction } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
@@ -9,11 +9,15 @@ import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import { Container } from "react-bootstrap";
 import { setTopRatedMoviesAction, setTrendingMoviesAction } from "../../redux/actions/moviesActions";
 import { setTopRatedSeriesAction, setTrendingSeriesAction } from "../../redux/actions/seriesActions";
+import { RootState } from "../../redux/store/store";
 
 const EsploraPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState("");
+  const trendingMovies = useSelector((state: RootState) => state.movies.trendingMovies);
+  const topRatedMovies = useSelector((state: RootState) => state.movies.topRatedMovies);
+  const trendingSeries = useSelector((state: RootState) => state.series.trendingSeries);
 
   const getUserDataFetch = async (token: string) => {
     try {
@@ -118,7 +122,9 @@ const EsploraPage = () => {
       <Mynavbar />
       <HeroBanner />
       <Container>
-        <MovieCard />
+        <MovieCard content={trendingMovies} />
+        <MovieCard content={topRatedMovies} />
+        <MovieCard content={trendingSeries} />
       </Container>
     </>
   );

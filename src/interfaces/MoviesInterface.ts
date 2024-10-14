@@ -1,4 +1,5 @@
 import { SET_SEARCHED_MOVIES, SET_TOP_RATED_MOVIES, SET_TRENDING_MOVIES } from "../redux/actions/moviesActions";
+import { Iseries } from "./SeriesInterface";
 
 export interface ImovieState {
   trendingMovies: Imovie[];
@@ -22,6 +23,10 @@ export interface Imovie {
   video: boolean;
   vote_average: number;
   vote_count: string;
+}
+
+export interface MovieCarouselProps {
+  content: Imovie[] | Iseries[];
 }
 
 //ACTIONS
