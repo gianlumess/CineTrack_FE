@@ -1,10 +1,16 @@
 import { ImovieState, MoviesAction } from "../../interfaces/MoviesInterface";
-import { SET_SEARCHED_MOVIES, SET_TOP_RATED_MOVIES, SET_TRENDING_MOVIES } from "../actions/moviesActions";
+import {
+  SET_MOVIE_DETAILS,
+  SET_SEARCHED_MOVIES,
+  SET_TOP_RATED_MOVIES,
+  SET_TRENDING_MOVIES,
+} from "../actions/moviesActions";
 
 const initialState: ImovieState = {
   trendingMovies: [],
   topRatedMovies: [],
   searchedMovies: [],
+  movieDetails: null,
 };
 
 const movieReducer = (state = initialState, action: MoviesAction) => {
@@ -23,6 +29,11 @@ const movieReducer = (state = initialState, action: MoviesAction) => {
       return {
         ...state,
         searchedMovies: action.payload,
+      };
+    case SET_MOVIE_DETAILS:
+      return {
+        ...state,
+        movieDetails: action.payload,
       };
 
     default:
