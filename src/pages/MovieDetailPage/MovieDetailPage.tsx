@@ -1,14 +1,19 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setMovieDetailsAction } from "../../redux/actions/moviesActions";
 import { MovieDetails } from "../../interfaces/MoviesInterface";
 import { useEffect, useState } from "react";
+import { RootState } from "../../redux/store/store";
+import styles from "./MovieDetailPage.module.scss";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import Mynavbar from "../../components/Navbar/Mynavbar";
 
 const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [error, setError] = useState("");
   const { movieId } = useParams<{ movieId: string }>();
+  const movieDetails = useSelector((state: RootState) => state.movies.movieDetails);
 
   const getMovieDetailsFetch = async (token: string) => {
     try {
@@ -35,7 +40,46 @@ const MovieDetailPage = () => {
     }
   }, []);
 
-  return <h1>MOVIE DETAIL</h1>;
+  return (
+    <>
+      <Mynavbar />
+      <Row
+        style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movieDetails?.backdrop_path})` }}
+        className={styles.movieDetails__topBanner}
+      >
+        <Col md={3}>
+          <Image
+            className={styles.movieDetails__topBanner__posterImage}
+            src={`https://image.tmdb.org/t/p/w500${movieDetails?.poster_path}`}
+          ></Image>
+        </Col>
+
+        <Col md={6} className={styles.movieDetails__topBanner__mainInfoSection}>
+          <h1 className="mb-0">{movieDetails?.title}</h1>
+
+          <div className={styles.movieDetails__topBanner__mainInfoSection__genreTag}>
+            {movieDetails?.genres.map((genre) => (
+              <span key={genre.id}>{genre.name}</span>
+            ))}
+          </div>
+          <p>{movieDetails?.overview}</p>
+        </Col>
+        <Col md={3} className="d-flex flex-column justify-content-end">
+          <Button className="mb-3 ms-auto">GIA' VISTO</Button>
+          <Button className="ms-auto ">AGGIUNGI ALLA LISTA DA VEDERE</Button>
+        </Col>
+      </Row>
+
+      <Container>
+        <Row>
+          <Col md={3}></Col>
+          <Col md={9}>
+            <h2>CAST</h2>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 };
 
 export default MovieDetailPage;

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { SeriesDetails } from "../../interfaces/SeriesInterface";
 import { setSeriesDetailsAction } from "../../redux/actions/seriesActions";
+import { RootState } from "../../redux/store/store";
 
 const SeriesDetailPage = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [error, setError] = useState("");
   const { seriesId } = useParams<{ seriesId: string }>();
+  const seriesDetails = useSelector((state: RootState) => state.series.seriesDetails);
 
   const getSeriesDetailsFetch = async (token: string) => {
     try {

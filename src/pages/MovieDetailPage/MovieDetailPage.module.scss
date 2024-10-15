@@ -1,0 +1,25 @@
+.movieDetails {
+  &__topBanner {
+    display: flex;
+
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+    row-gap: 2em;
+    padding-inline: 5em;
+    padding-block: 2em;
+    &__mainInfoSection {
+      display: flex;
+      flex-direction: column;
+      &__genreTag {
+        display: flex;
+        gap: 1em;
+        margin-bottom: 2em;
+      }
+    }
+    &__posterImage {
+      height: 99%;
+      width: 100%;
+    }
+  }
+}
