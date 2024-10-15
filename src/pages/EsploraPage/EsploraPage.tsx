@@ -21,26 +21,6 @@ const EsploraPage = () => {
   const trendingSeries = useSelector((state: RootState) => state.series.trendingSeries);
   const topRatedSeries = useSelector((state: RootState) => state.series.topRatedSeries);
 
-  const getUserDataFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const userData: UserDataResponse = await response.json();
-        //INSERIRE DISPATCH PER AGGIORNARE I DATI UTENTE NELLO STORE
-        dispatch(saveUserDataAction(userData));
-      } else {
-        const errorMessage = await response.json();
-        setError(errorMessage.message || "errore nel recuperare i dati dell'utente");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getPopularMoviesFetch = async (token: string) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/trending`, {
@@ -107,7 +87,6 @@ const EsploraPage = () => {
 
   useEffect(() => {
     if (token) {
-      getUserDataFetch(token);
       getPopularMoviesFetch(token);
       getPopularSeriesFetch(token);
       getTopRatedMoviesFetch(token);

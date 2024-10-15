@@ -18,14 +18,37 @@ import styles from "./Mynavbar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { setSearchedMoviesAction } from "../../redux/actions/moviesActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setSearchedSeriesAction } from "../../redux/actions/seriesActions";
+import { UserDataResponse } from "../../interfaces/UserInterfaces";
+import { saveUserDataAction } from "../../redux/actions/userActions";
 
 const Mynavbar = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.user);
+  const [error, setError] = useState("");
   const token: string = localStorage.getItem("token");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const getUserDataFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const userData: UserDataResponse = await response.json();
+        //INSERIRE DISPATCH PER AGGIORNARE I DATI UTENTE NELLO STORE
+        dispatch(saveUserDataAction(userData));
+      } else {
+        const errorMessage = await response.json();
+        setError(errorMessage.message || "errore nel recuperare i dati dell'utente");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getSearchedMoviesFetch = async (token: string, query: string) => {
     try {
@@ -58,6 +81,10 @@ const Mynavbar = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    getUserDataFetch(token);
+  }, []);
 
   return (
     <Navbar expand="lg" className={`bg-body-tertiary ${styles.navbar}`}>
