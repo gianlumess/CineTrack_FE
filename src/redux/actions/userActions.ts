@@ -4,6 +4,7 @@ import { AppDispatch } from "../store/store";
 export const GET_TOKEN_FROM_LOGIN = "GET_TOKEN_FROM_LOGIN";
 export const UPDATE_EMAIL_AFTER_REGISTRATION = "UPDATE_EMAIL_AFTER_REGISTRATION";
 export const SAVE_USER_DATA = "SAVE_USER_DATA";
+export const SAVE_FILM_IN_LIST = "SAVE_FILM_IN_LIST";
 
 export const registerUserFetch = (dataRegistration: DataRegistration) => {
   return async (dispatch: AppDispatch) => {

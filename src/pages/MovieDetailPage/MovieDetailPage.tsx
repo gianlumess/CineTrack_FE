@@ -8,6 +8,7 @@ import styles from "./MovieDetailPage.module.scss";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
+import { UserMovieDTO } from "../../interfaces/UserInterfaces";
 
 const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
@@ -52,6 +53,27 @@ const MovieDetailPage = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const saveMovieInListFetch = async (token: string, movie: UserMovieDTO) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user_movies`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(movie),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      } else {
+        const errorMessage = await response.json();
+        setError(errorMessage.message || "errore nel salvare il film nella tua lista");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

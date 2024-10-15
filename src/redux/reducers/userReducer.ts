@@ -1,15 +1,9 @@
-import { IuserState, UserAction } from "../../interfaces/UserInterfaces";
+import { UserAction, UserInitialState } from "../../interfaces/UserInterfaces";
 import { GET_TOKEN_FROM_LOGIN, SAVE_USER_DATA, UPDATE_EMAIL_AFTER_REGISTRATION } from "../actions/userActions";
 
-const initialState: IuserState = {
-  id: "",
-  username: "",
-  name: "",
-  surname: "",
-  email: "",
-  password: "",
-  avatar: "",
-  creationDate: "",
+const initialState: UserInitialState = {
+  user: { id: "", username: "", name: "", surname: "", email: "", password: "", avatar: "", creationDate: "" },
+  moviesList: [],
 };
 
 const userReducer = (state = initialState, action: UserAction) => {

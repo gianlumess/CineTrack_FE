@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { useDispatch, useSelector } from "react-redux";
-import { UserDataResponse } from "../../interfaces/UserInterfaces";
-import { saveUserDataAction } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
@@ -15,7 +13,6 @@ const EsploraPage = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
   const trendingMovies = useSelector((state: RootState) => state.movies.trendingMovies);
   const topRatedMovies = useSelector((state: RootState) => state.movies.topRatedMovies);
   const trendingSeries = useSelector((state: RootState) => state.series.trendingSeries);

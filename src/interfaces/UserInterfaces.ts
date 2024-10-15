@@ -1,5 +1,22 @@
 import { GET_TOKEN_FROM_LOGIN, SAVE_USER_DATA, UPDATE_EMAIL_AFTER_REGISTRATION } from "../redux/actions/userActions";
 
+export interface UserInitialState {
+  user: IuserState;
+  moviesList: UserMovie[];
+}
+
+export interface UserMovie {
+  id: string;
+  showStatus: string;
+  userId: string;
+  movieId: number;
+  dateAddedToList: string;
+}
+
+export interface UserMovieDTO {
+  showStatus: string;
+  movieId: number;
+}
 //INTERFACE CHE RISPECCHIA LO STATO DELL'USER NELLO STORE
 export interface IuserState {
   id: string;
