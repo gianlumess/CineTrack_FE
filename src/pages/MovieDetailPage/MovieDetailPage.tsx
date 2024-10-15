@@ -7,6 +7,7 @@ import { RootState } from "../../redux/store/store";
 import styles from "./MovieDetailPage.module.scss";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
+import CastCard from "../../components/CastCard/CastCard";
 
 const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
@@ -14,6 +15,7 @@ const MovieDetailPage = () => {
   const [error, setError] = useState("");
   const { movieId } = useParams<{ movieId: string }>();
   const movieDetails = useSelector((state: RootState) => state.movies.movieDetails);
+  const movieCredits = useSelector((state: RootState) => state.movies.movieCredits);
 
   const getMovieDetailsFetch = async (token: string) => {
     try {
@@ -95,6 +97,7 @@ const MovieDetailPage = () => {
           <Col md={3}></Col>
           <Col md={9}>
             <h2>CAST</h2>
+            {movieCredits && <CastCard content={movieCredits} />}
           </Col>
         </Row>
       </Container>

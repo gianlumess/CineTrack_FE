@@ -130,6 +130,9 @@ export interface SpokenLanguage {
 export interface MovieCarouselProps {
   content: Imovie[] | Iseries[];
 }
+export interface CreditCardProps {
+  content: MovieCredits;
+}
 
 //ACTIONS
 export interface SetTrendingMoviesAction {
