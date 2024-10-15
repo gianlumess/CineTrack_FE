@@ -1,6 +1,7 @@
 import { IseriesState, SeriesAction } from "../../interfaces/SeriesInterface";
 import {
   SET_SEARCHED_SERIES,
+  SET_SERIES_CREDITS,
   SET_SERIES_DETAILS,
   SET_TOP_RATED_SERIES,
   SET_TRENDING_SERIES,
@@ -11,6 +12,7 @@ const initialState: IseriesState = {
   topRatedSeries: [],
   searchedSeries: [],
   seriesDetails: null,
+  seriesCredits: null,
 };
 
 const seriesReducer = (state = initialState, action: SeriesAction) => {
@@ -34,6 +36,11 @@ const seriesReducer = (state = initialState, action: SeriesAction) => {
       return {
         ...state,
         seriesDetails: action.payload,
+      };
+    case SET_SERIES_CREDITS:
+      return {
+        ...state,
+        seriesCredits: action.payload,
       };
     default:
       return state;

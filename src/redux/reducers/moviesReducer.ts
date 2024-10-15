@@ -1,5 +1,6 @@
 import { ImovieState, MoviesAction } from "../../interfaces/MoviesInterface";
 import {
+  SET_MOVIE_CREDITS,
   SET_MOVIE_DETAILS,
   SET_SEARCHED_MOVIES,
   SET_TOP_RATED_MOVIES,
@@ -11,6 +12,7 @@ const initialState: ImovieState = {
   topRatedMovies: [],
   searchedMovies: [],
   movieDetails: null,
+  movieCredits: null,
 };
 
 const movieReducer = (state = initialState, action: MoviesAction) => {
@@ -34,6 +36,11 @@ const movieReducer = (state = initialState, action: MoviesAction) => {
       return {
         ...state,
         movieDetails: action.payload,
+      };
+    case SET_MOVIE_CREDITS:
+      return {
+        ...state,
+        movieCredits: action.payload,
       };
 
     default:

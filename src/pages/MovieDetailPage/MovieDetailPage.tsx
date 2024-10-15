@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { setMovieDetailsAction } from "../../redux/actions/moviesActions";
-import { MovieDetails } from "../../interfaces/MoviesInterface";
+import { setMovieCreditsAction, setMovieDetailsAction } from "../../redux/actions/moviesActions";
+import { MovieCredits, MovieDetails } from "../../interfaces/MoviesInterface";
 import { useEffect, useState } from "react";
 import { RootState } from "../../redux/store/store";
 import styles from "./MovieDetailPage.module.scss";
@@ -34,9 +34,29 @@ const MovieDetailPage = () => {
     }
   };
 
+  const getMovieCreditsFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}/credits`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const movieData: MovieCredits = await response.json();
+        dispatch(setMovieCreditsAction(movieData));
+      } else {
+        const erroMessage = await response.json();
+        setError(erroMessage.message || "errore nel recuperare i crediti del film");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       getMovieDetailsFetch(token);
+      getMovieCreditsFetch(token);
     }
   }, []);
 

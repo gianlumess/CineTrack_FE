@@ -1,5 +1,6 @@
 import {
   SET_SEARCHED_SERIES,
+  SET_SERIES_CREDITS,
   SET_SERIES_DETAILS,
   SET_TOP_RATED_SERIES,
   SET_TRENDING_SERIES,
@@ -10,6 +11,7 @@ export interface IseriesState {
   topRatedSeries: Iseries[];
   searchedSeries: Iseries[];
   seriesDetails: SeriesDetails | null;
+  seriesCredits: SeriesCredits | null;
 }
 
 export interface Iseries {
@@ -31,6 +33,28 @@ export interface Iseries {
 }
 
 //INTERFACCE PER SERIES DETAILS
+export interface SeriesCredits {
+  cast: Cast[];
+  crew: Cast[];
+  id: number;
+}
+
+export interface Cast {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: null | string;
+  character?: string;
+  credit_id: string;
+  order?: number;
+  department?: string;
+  job?: string;
+}
+
 export interface SeriesDetails {
   adult: boolean;
   backdrop_path: string;
@@ -145,8 +169,14 @@ export interface SetSeriesDetailsAction {
   payload: SeriesDetails;
 }
 
+export interface SetSeriesCreditsAction {
+  type: typeof SET_SERIES_CREDITS;
+  payload: SeriesCredits;
+}
+
 export type SeriesAction =
   | SetTrendingSeriesAction
   | SetTopRatedSeriesAction
   | SetSearchedSeriesAction
-  | SetSeriesDetailsAction;
+  | SetSeriesDetailsAction
+  | SetSeriesCreditsAction;

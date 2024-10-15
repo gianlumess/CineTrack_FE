@@ -1,4 +1,5 @@
 import {
+  SET_MOVIE_CREDITS,
   SET_MOVIE_DETAILS,
   SET_SEARCHED_MOVIES,
   SET_TOP_RATED_MOVIES,
@@ -11,6 +12,7 @@ export interface ImovieState {
   topRatedMovies: Imovie[];
   searchedMovies: Imovie[];
   movieDetails: MovieDetails | null;
+  movieCredits: MovieCredits | null;
 }
 
 export interface Imovie {
@@ -31,6 +33,43 @@ export interface Imovie {
   vote_count: string;
 }
 //INTERFACCE PER MOVIE DETAILS
+export interface MovieCredits {
+  id: number;
+  cast: Cast[];
+  crew: Cast[];
+}
+
+export interface Cast {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: Department;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: null | string;
+  cast_id?: number;
+  character?: string;
+  credit_id: string;
+  order?: number;
+  department?: Department;
+  job?: string;
+}
+
+export enum Department {
+  Acting = "Acting",
+  Art = "Art",
+  Camera = "Camera",
+  CostumeMakeUp = "Costume & Make-Up",
+  Crew = "Crew",
+  Directing = "Directing",
+  Editing = "Editing",
+  Lighting = "Lighting",
+  Production = "Production",
+  Sound = "Sound",
+  VisualEffects = "Visual Effects",
+  Writing = "Writing",
+}
 export interface MovieDetails {
   adult: boolean;
   backdrop_path: string;
@@ -113,8 +152,14 @@ export interface SetMovieDetailsAction {
   payload: MovieDetails;
 }
 
+export interface SetMovieCreditsAction {
+  type: typeof SET_MOVIE_CREDITS;
+  payload: MovieCredits;
+}
+
 export type MoviesAction =
   | SetTrendingMoviesAction
   | SetTopRatedMoviesAction
   | SetSearchedMoviesAction
-  | SetMovieDetailsAction;
+  | SetMovieDetailsAction
+  | SetMovieCreditsAction;
