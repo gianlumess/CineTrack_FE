@@ -2,6 +2,7 @@ import { UserAction, UserInitialState } from "../../interfaces/UserInterfaces";
 import {
   GET_MOVIES_IN_LIST,
   GET_MY_COMMENT,
+  GET_MY_RATING,
   GET_TOKEN_FROM_LOGIN,
   SAVE_USER_DATA,
   UPDATE_EMAIL_AFTER_REGISTRATION,
@@ -11,6 +12,7 @@ const initialState: UserInitialState = {
   user: { id: "", username: "", name: "", surname: "", email: "", password: "", avatar: "", creationDate: "" },
   moviesList: [],
   myComment: null,
+  myRating: null,
 };
 
 const userReducer = (state = initialState, action: UserAction) => {
@@ -39,6 +41,11 @@ const userReducer = (state = initialState, action: UserAction) => {
       return {
         ...state,
         myComment: action.payload,
+      };
+    case GET_MY_RATING:
+      return {
+        ...state,
+        myRating: action.payload,
       };
     default:
       return state;

@@ -13,7 +13,7 @@ import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
 import { UserMovie, UserMovieDTO } from "../../interfaces/UserInterfaces";
-import { getMoviesInListAction, getMyCommentAction } from "../../redux/actions/userActions";
+import { getMoviesInListAction, getMyCommentAction, getMyRatingAction } from "../../redux/actions/userActions";
 import MovieCard from "../../components/MovieCard/MovieCard";
 
 const MovieDetailPage = () => {
@@ -122,6 +122,25 @@ const MovieDetailPage = () => {
     }
   };
 
+  const getMyRatingFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings/me/${movieId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(getMyRatingAction(data));
+      } else {
+        const erroMessage = await response.json();
+        setError(erroMessage.message || "errore nel recuperare la valutazione");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /*  const getMoviesInListFetch = async (token: string) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/user_movies/me`, {
@@ -147,6 +166,7 @@ const MovieDetailPage = () => {
       getMovieCreditsFetch(token);
       getSimilarMoviesFetch(token);
       getMyCommentFetch(token);
+      getMyRatingFetch(token);
     }
   }, []);
 
