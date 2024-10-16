@@ -1,5 +1,6 @@
 import {
   GET_MOVIES_IN_LIST,
+  GET_MY_COMMENT,
   GET_TOKEN_FROM_LOGIN,
   SAVE_USER_DATA,
   UPDATE_EMAIL_AFTER_REGISTRATION,
@@ -8,6 +9,15 @@ import {
 export interface UserInitialState {
   user: IuserState;
   moviesList: UserMovie[];
+  myComment: MyComment | null;
+}
+
+export interface MyComment {
+  id: string;
+  content: string;
+  showId: number;
+  userId: string;
+  dateComment: Date;
 }
 
 export interface UserMovie {
@@ -78,4 +88,14 @@ export interface GetMoviesInListAction {
   payload: UserMovie[];
 }
 
-export type UserAction = RegistrationAction | LoginAction | SaveUserDataAction | GetMoviesInListAction;
+export interface GetMyCommentAction {
+  type: typeof GET_MY_COMMENT;
+  payload: MyComment;
+}
+
+export type UserAction =
+  | RegistrationAction
+  | LoginAction
+  | SaveUserDataAction
+  | GetMoviesInListAction
+  | GetMyCommentAction;

@@ -14,7 +14,7 @@ export interface ImovieState {
   searchedMovies: Imovie[];
   movieDetails: MovieDetails | null;
   movieCredits: MovieCredits | null;
-  similarMovies: SimilarMovies[];
+  similarMovies: Imovie[];
 }
 
 export interface Imovie {
@@ -183,7 +183,7 @@ export interface SetMovieCreditsAction {
 
 export interface SetSimilarMoviesAction {
   type: typeof SET_SIMILAR_MOVIES;
-  payload: SimilarMovies;
+  payload: Imovie[];
 }
 
 export type MoviesAction =

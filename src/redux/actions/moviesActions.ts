@@ -1,4 +1,4 @@
-import { Imovie, MovieCredits, MovieDetails, SimilarMovies } from "../../interfaces/MoviesInterface";
+import { Imovie, MovieCredits, MovieDetails } from "../../interfaces/MoviesInterface";
 
 export const SET_TRENDING_MOVIES = "SET_TRENDING_MOVIES";
 export const SET_TOP_RATED_MOVIES = "SET_TOP_RATED_MOVIES";
@@ -42,7 +42,7 @@ export const setMovieCreditsAction = (credits: MovieCredits) => {
   };
 };
 
-export const setSimilarMoviesAction = (similarMovies: SimilarMovies[]) => {
+export const setSimilarMoviesAction = (similarMovies: Imovie[]) => {
   return {
     type: SET_SIMILAR_MOVIES,
     payload: similarMovies,

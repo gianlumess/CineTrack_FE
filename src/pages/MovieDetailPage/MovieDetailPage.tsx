@@ -13,7 +13,8 @@ import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
 import { UserMovie, UserMovieDTO } from "../../interfaces/UserInterfaces";
-import { getMoviesInListAction } from "../../redux/actions/userActions";
+import { getMoviesInListAction, getMyCommentAction } from "../../redux/actions/userActions";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
 const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
@@ -22,6 +23,7 @@ const MovieDetailPage = () => {
   const { movieId } = useParams<{ movieId: string }>();
   const movieDetails = useSelector((state: RootState) => state.movies.movieDetails);
   const movieCredits = useSelector((state: RootState) => state.movies.movieCredits);
+  const similarMovies = useSelector((state: RootState) => state.movies.similarMovies);
 
   const getMovieDetailsFetch = async (token: string) => {
     try {
@@ -101,6 +103,25 @@ const MovieDetailPage = () => {
     }
   };
 
+  const getMyCommentFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/me/${movieId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(getMyCommentAction(data));
+      } else {
+        const erroMessage = await response.json();
+        setError(erroMessage.message || "errore nel recuperare il commento");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /*  const getMoviesInListFetch = async (token: string) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/user_movies/me`, {
@@ -125,6 +146,7 @@ const MovieDetailPage = () => {
       getMovieDetailsFetch(token);
       getMovieCreditsFetch(token);
       getSimilarMoviesFetch(token);
+      getMyCommentFetch(token);
     }
   }, []);
 
@@ -210,6 +232,7 @@ const MovieDetailPage = () => {
             <h2>CAST</h2>
             {movieCredits && <CastCard content={movieCredits} />}
             <h2 className="mt-2">Film consigliati</h2>
+            {similarMovies && <MovieCard content={similarMovies} />}
           </Col>
         </Row>
       </Container>
