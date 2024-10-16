@@ -3,6 +3,7 @@ import {
   SET_MOVIE_CREDITS,
   SET_MOVIE_DETAILS,
   SET_SEARCHED_MOVIES,
+  SET_SIMILAR_MOVIES,
   SET_TOP_RATED_MOVIES,
   SET_TRENDING_MOVIES,
 } from "../actions/moviesActions";
@@ -13,6 +14,7 @@ const initialState: ImovieState = {
   searchedMovies: [],
   movieDetails: null,
   movieCredits: null,
+  similarMovies: [],
 };
 
 const movieReducer = (state = initialState, action: MoviesAction) => {
@@ -41,6 +43,11 @@ const movieReducer = (state = initialState, action: MoviesAction) => {
       return {
         ...state,
         movieCredits: action.payload,
+      };
+    case SET_SIMILAR_MOVIES:
+      return {
+        ...state,
+        similarMovies: action.payload,
       };
 
     default:

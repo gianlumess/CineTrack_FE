@@ -1,4 +1,9 @@
-import { GET_TOKEN_FROM_LOGIN, SAVE_USER_DATA, UPDATE_EMAIL_AFTER_REGISTRATION } from "../redux/actions/userActions";
+import {
+  GET_MOVIES_IN_LIST,
+  GET_TOKEN_FROM_LOGIN,
+  SAVE_USER_DATA,
+  UPDATE_EMAIL_AFTER_REGISTRATION,
+} from "../redux/actions/userActions";
 
 export interface UserInitialState {
   user: IuserState;
@@ -68,4 +73,9 @@ export interface SaveUserDataAction {
   payload: UserDataResponse;
 }
 
-export type UserAction = RegistrationAction | LoginAction | SaveUserDataAction;
+export interface GetMoviesInListAction {
+  type: typeof GET_MOVIES_IN_LIST;
+  payload: UserMovie[];
+}
+
+export type UserAction = RegistrationAction | LoginAction | SaveUserDataAction | GetMoviesInListAction;

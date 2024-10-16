@@ -25,7 +25,7 @@ import { saveUserDataAction } from "../../redux/actions/userActions";
 
 const Mynavbar = () => {
   const dispatch = useDispatch();
-  const userData = useSelector((state: RootState) => state.user);
+  const userData = useSelector((state: RootState) => state.user.user);
   const [error, setError] = useState("");
   const token: string = localStorage.getItem("token");
   const [searchQuery, setSearchQuery] = useState("");

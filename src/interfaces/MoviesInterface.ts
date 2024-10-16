@@ -2,6 +2,7 @@ import {
   SET_MOVIE_CREDITS,
   SET_MOVIE_DETAILS,
   SET_SEARCHED_MOVIES,
+  SET_SIMILAR_MOVIES,
   SET_TOP_RATED_MOVIES,
   SET_TRENDING_MOVIES,
 } from "../redux/actions/moviesActions";
@@ -13,6 +14,7 @@ export interface ImovieState {
   searchedMovies: Imovie[];
   movieDetails: MovieDetails | null;
   movieCredits: MovieCredits | null;
+  similarMovies: SimilarMovies[];
 }
 
 export interface Imovie {
@@ -32,7 +34,26 @@ export interface Imovie {
   vote_average: number;
   vote_count: string;
 }
-//INTERFACCE PER MOVIE DETAILS
+
+//INTERFACE PER SIMILAR MOVIES
+
+export interface SimilarMovies {
+  adult: boolean;
+  backdrop_path: null | string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+//INTERFACCE PER MOVIE DETAILS E MOVIE CREDITS
 export interface MovieCredits {
   id: number;
   cast: Cast[];
@@ -134,7 +155,7 @@ export interface CreditCardProps {
   content: MovieCredits;
 }
 
-//ACTIONS
+//**************ACTIONS
 export interface SetTrendingMoviesAction {
   type: typeof SET_TRENDING_MOVIES;
   payload: Imovie[];
@@ -160,9 +181,15 @@ export interface SetMovieCreditsAction {
   payload: MovieCredits;
 }
 
+export interface SetSimilarMoviesAction {
+  type: typeof SET_SIMILAR_MOVIES;
+  payload: SimilarMovies;
+}
+
 export type MoviesAction =
   | SetTrendingMoviesAction
   | SetTopRatedMoviesAction
   | SetSearchedMoviesAction
   | SetMovieDetailsAction
-  | SetMovieCreditsAction;
+  | SetMovieCreditsAction
+  | SetSimilarMoviesAction;

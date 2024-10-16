@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { setMovieCreditsAction, setMovieDetailsAction } from "../../redux/actions/moviesActions";
+import {
+  setMovieCreditsAction,
+  setMovieDetailsAction,
+  setSimilarMoviesAction,
+} from "../../redux/actions/moviesActions";
 import { MovieCredits, MovieDetails } from "../../interfaces/MoviesInterface";
 import { useEffect, useState } from "react";
 import { RootState } from "../../redux/store/store";
@@ -8,7 +12,8 @@ import styles from "./MovieDetailPage.module.scss";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
-import { UserMovieDTO } from "../../interfaces/UserInterfaces";
+import { UserMovie, UserMovieDTO } from "../../interfaces/UserInterfaces";
+import { getMoviesInListAction } from "../../redux/actions/userActions";
 
 const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
@@ -77,10 +82,49 @@ const MovieDetailPage = () => {
     }
   };
 
+  const getSimilarMoviesFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}/similar`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(setSimilarMoviesAction(data.results));
+      } else {
+        const erroMessage = await response.json();
+        setError(erroMessage.message || "errore nel recuperare i dati dei film");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /*  const getMoviesInListFetch = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user_movies/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const movieData: UserMovie[] = await response.json();
+        dispatch(getMoviesInListAction(movieData));
+      } else {
+        const erroMessage = await response.json();
+        setError(erroMessage.message || "errore nel recuperare i crediti del film");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }; */
+
   useEffect(() => {
     if (token) {
       getMovieDetailsFetch(token);
       getMovieCreditsFetch(token);
+      getSimilarMoviesFetch(token);
     }
   }, []);
 
@@ -109,17 +153,63 @@ const MovieDetailPage = () => {
           <p>{movieDetails?.overview}</p>
         </Col>
         <Col md={3} className="d-flex flex-column justify-content-end">
-          <Button className="mb-3 ms-auto">GIA' VISTO</Button>
-          <Button className="ms-auto ">AGGIUNGI ALLA LISTA DA VEDERE</Button>
+          <Button
+            onClick={() => {
+              const showStatus = "WATCHED";
+              saveMovieInListFetch(token, { showStatus, movieId });
+            }}
+            className="mb-3 ms-auto"
+          >
+            GIA' VISTO
+          </Button>
+          <Button
+            onClick={() => {
+              const showStatus = "TO_WATCH";
+              saveMovieInListFetch(token, { showStatus, movieId });
+            }}
+            className="ms-auto "
+          >
+            AGGIUNGI ALLA LISTA DA VEDERE
+          </Button>
         </Col>
       </Row>
 
       <Container>
-        <Row>
-          <Col md={3}></Col>
+        <Row className="mt-5">
+          <Col md={3}>
+            <p>
+              <strong>Regista</strong>
+              <span className="d-block">{movieCredits?.crew[0].name}</span>
+            </p>
+            <p>
+              <strong>Titolo originale</strong>
+              <span className="d-block">{movieDetails?.original_title}</span>
+            </p>
+            <p>
+              <strong>Lingua originale</strong>
+              <span className="d-block">{movieDetails?.original_language}</span>
+            </p>
+            <p>
+              <strong>Stato</strong>
+              <span className="d-block">{movieDetails?.status}</span>
+            </p>
+            <p>
+              <strong>Durata</strong>
+              <span className="d-block">{movieDetails?.runtime} min</span>
+            </p>
+            <p>
+              <strong>Budget</strong>
+              <span className="d-block">${movieDetails?.budget.toLocaleString("it-IT")}</span>
+            </p>
+            <p>
+              <strong>Incasso</strong>
+              <span className="d-block">${movieDetails?.revenue.toLocaleString("it-IT")}</span>
+            </p>
+          </Col>
           <Col md={9}>
             <h2>CAST</h2>
             {movieCredits && <CastCard content={movieCredits} />}
+            <h2 className="mt-2">Film consigliati</h2>
           </Col>
         </Row>
       </Container>

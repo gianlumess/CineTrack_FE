@@ -1,5 +1,10 @@
 import { UserAction, UserInitialState } from "../../interfaces/UserInterfaces";
-import { GET_TOKEN_FROM_LOGIN, SAVE_USER_DATA, UPDATE_EMAIL_AFTER_REGISTRATION } from "../actions/userActions";
+import {
+  GET_MOVIES_IN_LIST,
+  GET_TOKEN_FROM_LOGIN,
+  SAVE_USER_DATA,
+  UPDATE_EMAIL_AFTER_REGISTRATION,
+} from "../actions/userActions";
 
 const initialState: UserInitialState = {
   user: { id: "", username: "", name: "", surname: "", email: "", password: "", avatar: "", creationDate: "" },
@@ -21,7 +26,12 @@ const userReducer = (state = initialState, action: UserAction) => {
     case SAVE_USER_DATA:
       return {
         ...state,
-        ...action.payload,
+        user: action.payload,
+      };
+    case GET_MOVIES_IN_LIST:
+      return {
+        ...state,
+        moviesList: action.payload,
       };
     default:
       return state;
