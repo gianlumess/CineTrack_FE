@@ -21,6 +21,7 @@ const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [error, setError] = useState("");
+  const [comment, setComment] = useState("");
   const { movieId } = useParams<{ movieId: string }>();
   const movieDetails = useSelector((state: RootState) => state.movies.movieDetails);
   const movieCredits = useSelector((state: RootState) => state.movies.movieCredits);
@@ -155,7 +156,7 @@ const MovieDetailPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        await getMyRatingFetch(token);
+        await getMyCommentFetch(token);
       } else {
         const errorMessage = await response.json();
         setError(errorMessage.message || "errore nel salvare il commento");
@@ -183,6 +184,13 @@ const MovieDetailPage = () => {
       console.log(error);
     }
   }; */
+
+  const handleCommentSubmit = () => {
+    const newComment: NewCommentDTO = {
+      content: comment,
+    };
+    saveCommentFetch(token, newComment);
+  };
 
   useEffect(() => {
     if (token) {
@@ -278,6 +286,18 @@ const MovieDetailPage = () => {
             <h2 className="mt-2">Film consigliati</h2>
             {similarMovies && <MovieCard content={similarMovies} />}
             <StarRating getMyRatingFetch={getMyRatingFetch} />
+
+            <div className={styles.movieDetails__commentSection}>
+              <textarea
+                className={styles.movieDetails__commentSection__comment}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Lascia un commento..."
+              />
+              <button className={styles.movieDetails__commentSection__submitButton} onClick={handleCommentSubmit}>
+                Invia Commento
+              </button>
+            </div>
           </Col>
         </Row>
       </Container>
