@@ -1,0 +1,14 @@
+.starRating {
+  display: flex;
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.star {
+  color: gray;
+  transition: color 0.2s;
+}
+
+.filled {
+  color: yellow;
+}

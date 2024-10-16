@@ -12,9 +12,10 @@ import styles from "./MovieDetailPage.module.scss";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
-import { UserMovie, UserMovieDTO } from "../../interfaces/UserInterfaces";
-import { getMoviesInListAction, getMyCommentAction, getMyRatingAction } from "../../redux/actions/userActions";
+import { UserMovieDTO } from "../../interfaces/UserInterfaces";
+import { getMyCommentAction, getMyRatingAction } from "../../redux/actions/userActions";
 import MovieCard from "../../components/MovieCard/MovieCard";
+import StarRating from "../../components/StarRating/StarRating";
 
 const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
@@ -253,6 +254,7 @@ const MovieDetailPage = () => {
             {movieCredits && <CastCard content={movieCredits} />}
             <h2 className="mt-2">Film consigliati</h2>
             {similarMovies && <MovieCard content={similarMovies} />}
+            <StarRating getMyRatingFetch={getMyRatingFetch} />
           </Col>
         </Row>
       </Container>
