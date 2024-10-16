@@ -12,7 +12,7 @@ import styles from "./MovieDetailPage.module.scss";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
-import { UserMovieDTO } from "../../interfaces/UserInterfaces";
+import { NewCommentDTO, UserMovieDTO } from "../../interfaces/UserInterfaces";
 import { getMyCommentAction, getMyRatingAction } from "../../redux/actions/userActions";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import StarRating from "../../components/StarRating/StarRating";
@@ -139,6 +139,29 @@ const MovieDetailPage = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const saveCommentFetch = async (token: string, rating: NewCommentDTO) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/me/${movieId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rating),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        await getMyRatingFetch(token);
+      } else {
+        const errorMessage = await response.json();
+        setError(errorMessage.message || "errore nel salvare il commento");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

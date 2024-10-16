@@ -21,12 +21,17 @@ export interface MyRating {
   userId: string;
   dateRating: Date;
 }
+
 export interface MyComment {
   id: string;
   content: string;
   showId: number;
   userId: string;
   dateComment: Date;
+}
+
+export interface NewCommentDTO {
+  content: string;
 }
 
 export interface UserMovie {

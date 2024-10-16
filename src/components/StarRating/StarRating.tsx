@@ -34,7 +34,7 @@ const StarRating: React.FC<StarRatingProps> = ({ getMyRatingFetch }) => {
         await getMyRatingFetch(token);
       } else {
         const errorMessage = await response.json();
-        setError(errorMessage.message || "errore nel salvare il film nella tua lista");
+        setError(errorMessage.message || "errore nel salvare la valutazione");
       }
     } catch (err) {
       console.log(err);
