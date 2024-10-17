@@ -13,8 +13,9 @@ import { getMyCommentAction, getMyRatingAction } from "../../redux/actions/userA
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import StarRating from "../../components/StarRating/StarRating";
-import styles from "../MovieDetailPage/MovieDetailPage.module.scss";
+import styles from "./SeriesDetailPage.module.scss";
 import CastCard from "../../components/CastCard/CastCard";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
 const SeriesDetailPage = () => {
   const token = localStorage.getItem("token");
@@ -178,6 +179,9 @@ const SeriesDetailPage = () => {
     if (token) {
       getSeriesDetailsFetch(token);
       getSeriesCreditsFetch(token);
+      getSimilarSeriesFetch(token);
+      getMyCommentFetch(token);
+      getMyRatingFetch(token);
     }
   }, []);
 
@@ -196,7 +200,7 @@ const SeriesDetailPage = () => {
         </Col>
 
         <Col md={6} className={styles.seriesDetails__topBanner__mainInfoSection}>
-          <h1 className="mb-0">{seriesDetails?.title}</h1>
+          <h1 className="mb-0">{seriesDetails?.name}</h1>
 
           <div className={styles.seriesDetails__topBanner__mainInfoSection__genreTag}>
             {seriesDetails?.genres.map((genre) => (
@@ -252,18 +256,18 @@ const SeriesDetailPage = () => {
             </p>
             <p>
               <strong>Numero Stagioni</strong>
-              <span className="d-block">${seriesDetails?.number_of_seasons}</span>
+              <span className="d-block">{seriesDetails?.number_of_seasons}</span>
             </p>
             <p>
               <strong>Numero episodi</strong>
-              <span className="d-block">${seriesDetails?.number_of_episodes}</span>
+              <span className="d-block">{seriesDetails?.number_of_episodes}</span>
             </p>
           </Col>
           <Col md={9}>
             <h2>CAST</h2>
-            {movieCredits && <CastCard content={seriesCredits} />}
-            <h2 className="mt-2">Film consigliati</h2>
-            {similarMovies && <MovieCard content={similarMovies} />}
+            {seriesCredits && <CastCard content={seriesCredits} />}
+            <h2 className="mt-2">Serie consigliate</h2>
+            {similarSeries && <MovieCard content={similarSeries} />}
             <h2>Lascia la tua valutazione</h2>
             <StarRating getMyRatingFetch={getMyRatingFetch} />
             {/* box per lasciare un commento */}

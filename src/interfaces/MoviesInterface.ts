@@ -6,7 +6,7 @@ import {
   SET_TOP_RATED_MOVIES,
   SET_TRENDING_MOVIES,
 } from "../redux/actions/moviesActions";
-import { Iseries } from "./SeriesInterface";
+import { Iseries, SeriesCredits } from "./SeriesInterface";
 
 export interface ImovieState {
   trendingMovies: Imovie[];
@@ -152,7 +152,7 @@ export interface MovieCarouselProps {
   content: Imovie[] | Iseries[];
 }
 export interface CreditCardProps {
-  content: MovieCredits;
+  content: MovieCredits | SeriesCredits;
 }
 
 //**************ACTIONS
