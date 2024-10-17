@@ -17,10 +17,11 @@ const StarRating: React.FC<StarRatingProps> = ({ getMyRatingFetch }) => {
   const [error, setError] = useState("");
   const maxStars = 5;
   const { movieId } = useParams<{ movieId: string }>();
+  const { seriesId } = useParams<{ seriesId: String }>();
 
   const saveRatingFetch = async (token: string, rating: NewRatingDTO) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings/me/${movieId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings/me/${movieId || seriesId}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
