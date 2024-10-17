@@ -29,6 +29,7 @@ const SeriesDetailPage = () => {
   const [comment, setComment] = useState("");
   const { seriesId } = useParams<{ seriesId: string }>();
   const userInfo = useSelector((state: RootState) => state.user.user);
+  const seriesList = useSelector((state: RootState) => state.user.seriesList);
   const seriesDetails = useSelector((state: RootState) => state.series.seriesDetails);
   const seriesCredits = useSelector((state: RootState) => state.series.seriesCredits);
   const similarSeries = useSelector((state: RootState) => state.series.similarSeries);
@@ -78,12 +79,14 @@ const SeriesDetailPage = () => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(series),
       });
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+        await dispatch(getSeriesInListFetch(token));
       } else {
         const errorMessage = await response.json();
         setError(errorMessage.message || "errore nel salvare la serie nella tua lista");
@@ -215,24 +218,28 @@ const SeriesDetailPage = () => {
           <p>{seriesDetails?.overview}</p>
         </Col>
         <Col md={3} className="d-flex flex-column justify-content-end">
-          <Button
-            onClick={() => {
-              const showStatus = "WATCHED";
-              saveSeriesInListFetch(token, { showStatus, seriesId });
-            }}
-            className="mb-3 ms-auto"
-          >
-            GIA' VISTO
-          </Button>
-          <Button
-            onClick={() => {
-              const showStatus = "TO_WATCH";
-              saveSeriesInListFetch(token, { showStatus, seriesId });
-            }}
-            className="ms-auto "
-          >
-            AGGIUNGI ALLA LISTA DA VEDERE
-          </Button>
+          {!seriesList.some((series) => series.seriesId.toString() === seriesId) && (
+            <>
+              <Button
+                onClick={() => {
+                  const showStatus = "WATCHED";
+                  saveSeriesInListFetch(token, { showStatus, seriesId });
+                }}
+                className="mb-3 ms-auto"
+              >
+                GIA' VISTO
+              </Button>
+              <Button
+                onClick={() => {
+                  const showStatus = "TO_WATCH";
+                  saveSeriesInListFetch(token, { showStatus, seriesId });
+                }}
+                className="ms-auto "
+              >
+                AGGIUNGI ALLA LISTA DA VEDERE
+              </Button>
+            </>
+          )}
         </Col>
       </Row>
 

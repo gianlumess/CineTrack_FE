@@ -29,6 +29,7 @@ const MovieDetailPage = () => {
   const [comment, setComment] = useState("");
   const { movieId } = useParams<{ movieId: string }>();
   const userInfo = useSelector((state: RootState) => state.user.user);
+  const moviesList = useSelector((state: RootState) => state.user.moviesList);
   const movieDetails = useSelector((state: RootState) => state.movies.movieDetails);
   const movieCredits = useSelector((state: RootState) => state.movies.movieCredits);
   const similarMovies = useSelector((state: RootState) => state.movies.similarMovies);
@@ -78,12 +79,14 @@ const MovieDetailPage = () => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(movie),
       });
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+        dispatch(getMoviesInListFetch(token));
       } else {
         const errorMessage = await response.json();
         setError(errorMessage.message || "errore nel salvare il film nella tua lista");
@@ -215,24 +218,28 @@ const MovieDetailPage = () => {
           <p>{movieDetails?.overview}</p>
         </Col>
         <Col md={3} className="d-flex flex-column justify-content-end">
-          <Button
-            onClick={() => {
-              const showStatus = "WATCHED";
-              saveMovieInListFetch(token, { showStatus, movieId });
-            }}
-            className="mb-3 ms-auto"
-          >
-            GIA' VISTO
-          </Button>
-          <Button
-            onClick={() => {
-              const showStatus = "TO_WATCH";
-              saveMovieInListFetch(token, { showStatus, movieId });
-            }}
-            className="ms-auto "
-          >
-            AGGIUNGI ALLA LISTA DA VEDERE
-          </Button>
+          {!moviesList.some((movie) => movie.movieId.toString() === movieId) && (
+            <>
+              <Button
+                onClick={() => {
+                  const showStatus = "WATCHED";
+                  saveMovieInListFetch(token, { showStatus, movieId });
+                }}
+                className="mb-3 ms-auto"
+              >
+                GIA' VISTO
+              </Button>
+              <Button
+                onClick={() => {
+                  const showStatus = "TO_WATCH";
+                  saveMovieInListFetch(token, { showStatus, movieId });
+                }}
+                className="ms-auto "
+              >
+                AGGIUNGI ALLA LISTA DA VEDERE
+              </Button>
+            </>
+          )}
         </Col>
       </Row>
 
