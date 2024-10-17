@@ -287,6 +287,7 @@ const MovieDetailPage = () => {
             {movieCredits && <CastCard content={movieCredits} />}
             <h2 className="mt-2">Film consigliati</h2>
             {similarMovies && <MovieCard content={similarMovies} />}
+            <h2>Lascia la tua valutazione</h2>
             <StarRating getMyRatingFetch={getMyRatingFetch} />
             {/* box per lasciare un commento */}
             <div className={styles.movieDetails__commentSection}>
@@ -300,6 +301,7 @@ const MovieDetailPage = () => {
                 Invia Commento
               </button>
             </div>
+            {/* sezione per visualizzare il proprio commento viasualizzabile solo se esiste il commento */}
             {myComment && (
               <div className={styles.movieDetails__commentBox}>
                 <div className={styles.movieDetails__commentBox__commentHeader}>

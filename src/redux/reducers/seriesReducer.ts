@@ -3,6 +3,7 @@ import {
   SET_SEARCHED_SERIES,
   SET_SERIES_CREDITS,
   SET_SERIES_DETAILS,
+  SET_SIMILAR_SERIES,
   SET_TOP_RATED_SERIES,
   SET_TRENDING_SERIES,
 } from "../actions/seriesActions";
@@ -13,6 +14,7 @@ const initialState: IseriesState = {
   searchedSeries: [],
   seriesDetails: null,
   seriesCredits: null,
+  similarSeries: [],
 };
 
 const seriesReducer = (state = initialState, action: SeriesAction) => {
@@ -41,6 +43,11 @@ const seriesReducer = (state = initialState, action: SeriesAction) => {
       return {
         ...state,
         seriesCredits: action.payload,
+      };
+    case SET_SIMILAR_SERIES:
+      return {
+        ...state,
+        similarSeries: action.payload,
       };
     default:
       return state;

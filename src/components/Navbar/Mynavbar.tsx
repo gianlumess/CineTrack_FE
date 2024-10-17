@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { setSearchedSeriesAction } from "../../redux/actions/seriesActions";
 import { UserDataResponse } from "../../interfaces/UserInterfaces";
 import { saveUserDataAction } from "../../redux/actions/userActions";
+import { Link } from "react-router-dom";
 
 const Mynavbar = () => {
   const dispatch = useDispatch();
@@ -89,11 +90,15 @@ const Mynavbar = () => {
   return (
     <Navbar expand="lg" className={`bg-body-tertiary ${styles.navbar}`}>
       <Container>
-        <NavbarBrand>CineTrack</NavbarBrand>
+        <NavbarBrand as={Link} to={"/"}>
+          CineTrack
+        </NavbarBrand>
         <NavbarToggle aria-controls="basic-navbar-nav" />
         <NavbarCollapse id="basic-navbar-nav">
           <Nav className={` ${styles.navbar__navLinks}`}>
-            <NavLink>Esplora</NavLink>
+            <NavLink as={Link} to={"/"}>
+              Esplora
+            </NavLink>
             <NavLink>Film</NavLink>
             <NavLink>Serie TV</NavLink>
             <NavLink>La mia lista</NavLink>

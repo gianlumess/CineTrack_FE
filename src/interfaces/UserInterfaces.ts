@@ -46,6 +46,19 @@ export interface UserMovieDTO {
   showStatus: string;
   movieId: number;
 }
+
+export interface UserSeries {
+  id: string;
+  showStatus: string;
+  userId: string;
+  seriesId: number;
+  dateAddedToList: Date;
+}
+
+export interface UserSeriesDTO {
+  showStatus: string;
+  seriesId: string;
+}
 //INTERFACE CHE RISPECCHIA LO STATO DELL'USER NELLO STORE
 export interface IuserState {
   id: string;

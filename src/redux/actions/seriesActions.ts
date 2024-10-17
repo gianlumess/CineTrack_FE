@@ -5,6 +5,7 @@ export const SET_TOP_RATED_SERIES = "SET_TOP_RATED_SERIES";
 export const SET_SEARCHED_SERIES = "SET_SEARCHED_SERIES";
 export const SET_SERIES_DETAILS = "SET_SERIES_DETAILS";
 export const SET_SERIES_CREDITS = "SET_SERIES_CREDITS";
+export const SET_SIMILAR_SERIES = "SET_SIMILAR_SERIES";
 
 export const setTrendingSeriesAction = (series: Iseries[]) => {
   return {
@@ -38,5 +39,12 @@ export const setSeriesCreditsAction = (credits: SeriesCredits) => {
   return {
     type: SET_SERIES_CREDITS,
     payload: credits,
+  };
+};
+
+export const setSimilarSeriesAction = (silimarSeries: Iseries[]) => {
+  return {
+    type: SET_SIMILAR_SERIES,
+    payload: silimarSeries,
   };
 };

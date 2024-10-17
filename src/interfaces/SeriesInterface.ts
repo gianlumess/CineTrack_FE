@@ -2,6 +2,7 @@ import {
   SET_SEARCHED_SERIES,
   SET_SERIES_CREDITS,
   SET_SERIES_DETAILS,
+  SET_SIMILAR_SERIES,
   SET_TOP_RATED_SERIES,
   SET_TRENDING_SERIES,
 } from "../redux/actions/seriesActions";
@@ -12,6 +13,7 @@ export interface IseriesState {
   searchedSeries: Iseries[];
   seriesDetails: SeriesDetails | null;
   seriesCredits: SeriesCredits | null;
+  similarSeries: Iseries[];
 }
 
 export interface Iseries {
@@ -174,9 +176,15 @@ export interface SetSeriesCreditsAction {
   payload: SeriesCredits;
 }
 
+export interface SetSimilarSeriesAction {
+  type: typeof SET_SIMILAR_SERIES;
+  payload: Iseries[];
+}
+
 export type SeriesAction =
   | SetTrendingSeriesAction
   | SetTopRatedSeriesAction
   | SetSearchedSeriesAction
   | SetSeriesDetailsAction
-  | SetSeriesCreditsAction;
+  | SetSeriesCreditsAction
+  | SetSimilarSeriesAction;
