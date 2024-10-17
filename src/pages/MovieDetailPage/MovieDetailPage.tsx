@@ -23,9 +23,11 @@ const MovieDetailPage = () => {
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
   const { movieId } = useParams<{ movieId: string }>();
+  const userInfo = useSelector((state: RootState) => state.user.user);
   const movieDetails = useSelector((state: RootState) => state.movies.movieDetails);
   const movieCredits = useSelector((state: RootState) => state.movies.movieCredits);
   const similarMovies = useSelector((state: RootState) => state.movies.similarMovies);
+  const myComment = useSelector((state: RootState) => state.user.myComment);
 
   const getMovieDetailsFetch = async (token: string) => {
     try {
@@ -286,7 +288,7 @@ const MovieDetailPage = () => {
             <h2 className="mt-2">Film consigliati</h2>
             {similarMovies && <MovieCard content={similarMovies} />}
             <StarRating getMyRatingFetch={getMyRatingFetch} />
-
+            {/* box per lasciare un commento */}
             <div className={styles.movieDetails__commentSection}>
               <textarea
                 className={styles.movieDetails__commentSection__comment}
@@ -298,6 +300,24 @@ const MovieDetailPage = () => {
                 Invia Commento
               </button>
             </div>
+            {myComment && (
+              <div className={styles.movieDetails__commentBox}>
+                <div className={styles.movieDetails__commentBox__commentHeader}>
+                  <img
+                    src={userInfo.avatar}
+                    alt={`${userInfo.username}'s profile`}
+                    className={styles.movieDetails__commentBox__profilePicture}
+                  />
+                  <div className={styles.movieDetails__commentBox__userInfo}>
+                    <span className={styles.movieDetails__commentBox__userInfo__username}>{userInfo.username}</span>
+                    <span className={styles.movieDetails__commentBox__userInfo__date}>
+                      {new Date(myComment.dateComment).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+                <div className={styles.movieDetails__commentContent}>{myComment.content}</div>
+              </div>
+            )}
           </Col>
         </Row>
       </Container>
