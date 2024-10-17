@@ -16,16 +16,16 @@ import {
 } from "react-bootstrap";
 import styles from "./Mynavbar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { AppDispatch, RootState } from "../../redux/store/store";
 import { setSearchedMoviesAction } from "../../redux/actions/moviesActions";
 import { useEffect, useState } from "react";
 import { setSearchedSeriesAction } from "../../redux/actions/seriesActions";
 import { UserDataResponse } from "../../interfaces/UserInterfaces";
-import { saveUserDataAction } from "../../redux/actions/userActions";
+import { getMoviesInListFetch, getSeriesInListFetch, saveUserDataAction } from "../../redux/actions/userActions";
 import { Link } from "react-router-dom";
 
 const Mynavbar = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.user.user);
   const [error, setError] = useState("");
   const token: string = localStorage.getItem("token");
@@ -85,6 +85,8 @@ const Mynavbar = () => {
 
   useEffect(() => {
     getUserDataFetch(token);
+    dispatch(getMoviesInListFetch(token));
+    dispatch(getSeriesInListFetch(token));
   }, []);
 
   return (

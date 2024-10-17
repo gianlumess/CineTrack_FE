@@ -2,6 +2,7 @@ import {
   GET_MOVIES_IN_LIST,
   GET_MY_COMMENT,
   GET_MY_RATING,
+  GET_SERIES_IN_LIST,
   GET_TOKEN_FROM_LOGIN,
   SAVE_USER_DATA,
   UPDATE_EMAIL_AFTER_REGISTRATION,
@@ -10,6 +11,7 @@ import {
 export interface UserInitialState {
   user: IuserState;
   moviesList: UserMovie[];
+  seriesList: UserSeries[];
   myComment: MyComment | null;
   myRating: MyRating | null;
 }
@@ -115,6 +117,11 @@ export interface GetMoviesInListAction {
   payload: UserMovie[];
 }
 
+export interface GetSeriesInListAction {
+  type: typeof GET_SERIES_IN_LIST;
+  payload: UserSeries[];
+}
+
 export interface GetMyCommentAction {
   type: typeof GET_MY_COMMENT;
   payload: MyComment;
@@ -130,5 +137,6 @@ export type UserAction =
   | LoginAction
   | SaveUserDataAction
   | GetMoviesInListAction
+  | GetSeriesInListAction
   | GetMyCommentAction
   | GetMyRatingAction;

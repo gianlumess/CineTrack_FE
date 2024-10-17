@@ -7,9 +7,14 @@ import {
   setSeriesDetailsAction,
   setSimilarSeriesAction,
 } from "../../redux/actions/seriesActions";
-import { RootState } from "../../redux/store/store";
-import { NewCommentDTO, UserSeriesDTO } from "../../interfaces/UserInterfaces";
-import { getMyCommentAction, getMyRatingAction } from "../../redux/actions/userActions";
+import { AppDispatch, RootState } from "../../redux/store/store";
+import { NewCommentDTO, UserSeries, UserSeriesDTO } from "../../interfaces/UserInterfaces";
+import {
+  getMyCommentAction,
+  getMyRatingAction,
+  getSeriesInListAction,
+  getSeriesInListFetch,
+} from "../../redux/actions/userActions";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import StarRating from "../../components/StarRating/StarRating";
@@ -19,7 +24,7 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 
 const SeriesDetailPage = () => {
   const token = localStorage.getItem("token");
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
   const { seriesId } = useParams<{ seriesId: string }>();
@@ -213,7 +218,7 @@ const SeriesDetailPage = () => {
           <Button
             onClick={() => {
               const showStatus = "WATCHED";
-              saveMovieInListFetch(token, { showStatus, movieId });
+              saveSeriesInListFetch(token, { showStatus, seriesId });
             }}
             className="mb-3 ms-auto"
           >
@@ -222,7 +227,7 @@ const SeriesDetailPage = () => {
           <Button
             onClick={() => {
               const showStatus = "TO_WATCH";
-              saveMovieInListFetch(token, { showStatus, movieId });
+              saveSeriesInListFetch(token, { showStatus, seriesId });
             }}
             className="ms-auto "
           >
@@ -251,7 +256,7 @@ const SeriesDetailPage = () => {
               <span className="d-block">{seriesDetails?.status}</span>
             </p>
             <p>
-              <strong>Durata</strong>
+              <strong>Durata episodio</strong>
               <span className="d-block">{seriesDetails?.episode_run_time} min</span>
             </p>
             <p>

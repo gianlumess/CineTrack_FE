@@ -7,19 +7,24 @@ import {
 } from "../../redux/actions/moviesActions";
 import { MovieCredits, MovieDetails } from "../../interfaces/MoviesInterface";
 import { useEffect, useState } from "react";
-import { RootState } from "../../redux/store/store";
+import { AppDispatch, RootState } from "../../redux/store/store";
 import styles from "./MovieDetailPage.module.scss";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
-import { NewCommentDTO, UserMovieDTO } from "../../interfaces/UserInterfaces";
-import { getMyCommentAction, getMyRatingAction } from "../../redux/actions/userActions";
+import { NewCommentDTO, UserMovie, UserMovieDTO } from "../../interfaces/UserInterfaces";
+import {
+  getMoviesInListAction,
+  getMoviesInListFetch,
+  getMyCommentAction,
+  getMyRatingAction,
+} from "../../redux/actions/userActions";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import StarRating from "../../components/StarRating/StarRating";
 
 const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
   const { movieId } = useParams<{ movieId: string }>();
@@ -167,25 +172,6 @@ const MovieDetailPage = () => {
       console.log(err);
     }
   };
-
-  /*  const getMoviesInListFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user_movies/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const movieData: UserMovie[] = await response.json();
-        dispatch(getMoviesInListAction(movieData));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare i crediti del film");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
 
   const handleCommentSubmit = () => {
     const newComment: NewCommentDTO = {
