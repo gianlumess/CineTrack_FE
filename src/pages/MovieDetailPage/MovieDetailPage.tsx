@@ -14,6 +14,7 @@ import Mynavbar from "../../components/Navbar/Mynavbar";
 import CastCard from "../../components/CastCard/CastCard";
 import { NewCommentDTO, UserMovie, UserMovieDTO } from "../../interfaces/UserInterfaces";
 import {
+  deleteMovieFromListFetch,
   getMoviesInListAction,
   getMoviesInListFetch,
   getMyCommentAction,
@@ -218,7 +219,16 @@ const MovieDetailPage = () => {
           <p>{movieDetails?.overview}</p>
         </Col>
         <Col md={3} className="d-flex flex-column justify-content-end">
-          {!moviesList.some((movie) => movie.movieId.toString() === movieId) && (
+          {moviesList.some((movie) => movie.movieId.toString() === movieId) ? (
+            <Button
+              onClick={() => {
+                deleteMovieFromListFetch(token, movieId, dispatch);
+              }}
+              className="mb-3 ms-auto"
+            >
+              RIMUOVI DALLA LISTA
+            </Button>
+          ) : (
             <>
               <Button
                 onClick={() => {
