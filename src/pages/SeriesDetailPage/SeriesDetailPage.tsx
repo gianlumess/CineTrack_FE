@@ -10,6 +10,7 @@ import {
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { NewCommentDTO, UserSeries, UserSeriesDTO } from "../../interfaces/UserInterfaces";
 import {
+  deleteSeriesFromListFetch,
   getMyCommentAction,
   getMyRatingAction,
   getSeriesInListAction,
@@ -218,7 +219,16 @@ const SeriesDetailPage = () => {
           <p>{seriesDetails?.overview}</p>
         </Col>
         <Col md={3} className="d-flex flex-column justify-content-end">
-          {!seriesList.some((series) => series.seriesId.toString() === seriesId) && (
+          {seriesList.some((series) => series.seriesId.toString() === seriesId) ? (
+            <Button
+              onClick={() => {
+                deleteSeriesFromListFetch(token, seriesId, dispatch);
+              }}
+              className="mb-3 ms-auto"
+            >
+              RIMUOVI DALLA LISTA
+            </Button>
+          ) : (
             <>
               <Button
                 onClick={() => {

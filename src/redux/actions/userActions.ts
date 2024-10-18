@@ -98,6 +98,25 @@ export const deleteMovieFromListFetch = async (token: string, movieId: string, d
   }
 };
 
+export const deleteSeriesFromListFetch = async (token: string, seriesId: string, dispatch: AppDispatch) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user_series/me?seriesId=${seriesId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      dispatch(getSeriesInListFetch(token));
+    } else {
+      const erroMessage = await response.json();
+      console.log(erroMessage.message || "errore nel rimuovere la serie TV dalla lista");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const saveUserDataAction = (userData: UserDataResponse) => {
   return {
     type: SAVE_USER_DATA,
