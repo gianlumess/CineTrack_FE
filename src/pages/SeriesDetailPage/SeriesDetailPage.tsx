@@ -192,7 +192,7 @@ const SeriesDetailPage = () => {
       getMyCommentFetch(token);
       getMyRatingFetch(token);
     }
-  }, []);
+  }, [seriesId]);
 
   return (
     <>

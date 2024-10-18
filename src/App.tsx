@@ -6,6 +6,7 @@ import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MovieDetailPage from "./pages/MovieDetailPage/MovieDetailPage";
 import SeriesDetailPage from "./pages/SeriesDetailPage/SeriesDetailPage";
+import MyProfilePage from "./pages/MyprofilePage/MyProfilePage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/movie-detail/:movieId" element={<MovieDetailPage />}></Route>
           <Route path="/series-detail/:seriesId" element={<SeriesDetailPage />}></Route>
+          <Route path="/my-profile" element={<MyProfilePage />}></Route>
         </Routes>
       </BrowserRouter>
     </>

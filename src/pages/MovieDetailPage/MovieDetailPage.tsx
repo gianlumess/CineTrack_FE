@@ -192,7 +192,7 @@ const MovieDetailPage = () => {
       getMyCommentFetch(token);
       getMyRatingFetch(token);
     }
-  }, []);
+  }, [movieId]);
 
   return (
     <>
