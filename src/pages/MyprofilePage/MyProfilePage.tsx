@@ -1,71 +1,181 @@
-import { useState } from "react";
-import { Button, Card, Container, Form } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Button, Card, Form, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { AppDispatch, RootState } from "../../redux/store/store";
 import styles from "./MyProfilePage.module.scss";
+import Mynavbar from "../../components/Navbar/Mynavbar";
+import { DataRegistration } from "../../interfaces/UserInterfaces";
+import { editMyProfileFetch } from "../../redux/actions/userActions";
 
 const MyProfilePage = () => {
-  const dispatch = useDispatch();
+  const token: string = localStorage.getItem("token");
+  const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({
-    username: user?.username || "",
-    firstName: user?.name || "",
-    lastName: user?.surname || "",
-    email: user?.email || "",
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [newAvatar, setNewAvatar] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [formData, setFormData] = useState<DataRegistration>({
+    username: "",
+    name: "",
+    surname: "",
+    email: "",
     password: "",
   });
 
+  // Aggiorna i dati del form quando user cambia o il modale viene aperto
+  useEffect(() => {
+    if (user && showEditModal) {
+      setFormData({
+        username: user.username || "",
+        name: user.name || "",
+        surname: user.surname || "",
+        email: user.email || "",
+        password: "", // La password rimane vuota per motivi di sicurezza
+      });
+    }
+  }, [user, showEditModal]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setNewAvatar(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const toggleEditModal = () => setShowEditModal(!showEditModal);
+  const toggleAvatarModal = () => setShowAvatarModal(!showAvatarModal);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(editMyProfileFetch(token, formData));
+    toggleEditModal();
+  };
+
   return (
-    <div className={styles.profilePage}>
-      <Card className={styles.profileCard}>
-        <Card.Body>
+    <>
+      <Mynavbar />
+      <div className={styles.profilePage}>
+        <Card className={styles.profileCard}>
           <div className={styles.profileHeader}>
-            <img src={user.avatar} alt="Profile" className={styles.profileImage} />
-            {editMode && (
-              <Form.Group>
-                <Form.Control className="mt-2" />
-                <Button className="mt-2">Aggiorna foto</Button>
-              </Form.Group>
-            )}
-          </div>
-          <Form className={styles.profileForm}>
-            <Form.Group controlId="formUsername">
-              <Form.Label>Username</Form.Label>
-              <Form.Control type="text" name="username" value={formData.username} disabled={!editMode} />
-            </Form.Group>
-            <Form.Group controlId="formFirstName" className="mt-3">
-              <Form.Label>Nome</Form.Label>
-              <Form.Control type="text" name="firstName" value={formData.firstName} disabled={!editMode} />
-            </Form.Group>
-            <Form.Group controlId="formLastName" className="mt-3">
-              <Form.Label>Cognome</Form.Label>
-              <Form.Control type="text" name="lastName" value={formData.lastName} disabled={!editMode} />
-            </Form.Group>
-            <Form.Group controlId="formEmail" className="mt-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" name="email" value={formData.email} disabled={!editMode} />
-            </Form.Group>
-            <Form.Group controlId="formPassword" className="mt-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" name="password" placeholder="Nuova password" disabled={!editMode} />
-            </Form.Group>
-            <div className="mt-4">
-              {editMode ? (
-                <>
-                  <Button className="me-2">Salva</Button>
-                  <Button variant="secondary" onClick={() => setEditMode(false)}>
-                    Annulla
-                  </Button>
-                </>
-              ) : (
-                <Button onClick={() => setEditMode(true)}>Modifica</Button>
-              )}
+            <img src={user?.avatar} alt="Profile" className={styles.profileImage} />
+            <div className={styles.profileInfo}>
+              <h3>{user?.username}</h3>
+              <p>{user?.email}</p>
             </div>
+          </div>
+          <Card.Body className={styles.profileBody}>
+            <p>
+              <strong>Nome:</strong> {user?.name}
+            </p>
+            <p>
+              <strong>Cognome:</strong> {user?.surname}
+            </p>
+
+            <div className={styles.editButton}>
+              <Button onClick={toggleEditModal}>Modifica Dati</Button>
+              <Button variant="secondary" onClick={toggleAvatarModal} className="ms-2">
+                Cambia Foto Profilo
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+
+        {/* Modale per modificare i dati dell'utente */}
+        <Modal show={showEditModal} onHide={toggleEditModal}>
+          <Form onSubmit={handleSubmit}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modifica Dati Personali</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Group className="mb-3">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Nome</Form.Label>
+                <Form.Control type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Cognome</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="surname"
+                  value={formData.surname}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" name="email" value={formData.email} onChange={handleInputChange} required />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Inserisci la nuova password"
+                />
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={toggleEditModal}>
+                Annulla
+              </Button>
+              <Button variant="primary" type="submit">
+                Salva
+              </Button>
+            </Modal.Footer>
           </Form>
-        </Card.Body>
-      </Card>
-    </div>
+        </Modal>
+
+        {/* Modale per cambiare la foto profilo */}
+        <Modal show={showAvatarModal} onHide={toggleAvatarModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Cambia Foto Profilo</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group>
+              <Form.Label>Carica una nuova foto</Form.Label>
+              <Form.Control type="file" onChange={handleAvatarChange} />
+              {previewUrl && <img src={previewUrl} alt="Anteprima Avatar" className="mt-3 w-100" />}
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={toggleAvatarModal}>
+              Annulla
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                /* Logica per salvare la nuova foto */
+              }}
+            >
+              Salva Foto
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    </>
   );
 };
 

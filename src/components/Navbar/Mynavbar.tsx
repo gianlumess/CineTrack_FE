@@ -20,8 +20,12 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import { setSearchedMoviesAction } from "../../redux/actions/moviesActions";
 import { useEffect, useState } from "react";
 import { setSearchedSeriesAction } from "../../redux/actions/seriesActions";
-import { UserDataResponse } from "../../interfaces/UserInterfaces";
-import { getMoviesInListFetch, getSeriesInListFetch, saveUserDataAction } from "../../redux/actions/userActions";
+import {
+  getMoviesInListFetch,
+  getSeriesInListFetch,
+  getUserDataFetch,
+  saveUserDataAction,
+} from "../../redux/actions/userActions";
 import { Link } from "react-router-dom";
 
 const Mynavbar = () => {
@@ -31,7 +35,7 @@ const Mynavbar = () => {
   const token: string = localStorage.getItem("token");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const getUserDataFetch = async (token: string) => {
+  /*  const getUserDataFetch = async (token: string) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
         headers: {
@@ -49,7 +53,7 @@ const Mynavbar = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; */
 
   const getSearchedMoviesFetch = async (token: string, query: string) => {
     try {
@@ -84,7 +88,7 @@ const Mynavbar = () => {
   };
 
   useEffect(() => {
-    getUserDataFetch(token);
+    dispatch(getUserDataFetch(token));
     dispatch(getMoviesInListFetch(token));
     dispatch(getSeriesInListFetch(token));
   }, []);
