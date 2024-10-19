@@ -37,6 +37,52 @@ export const registerUserFetch = (dataRegistration: DataRegistration) => {
   };
 };
 
+export const getUserDataFetch = (token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const userData: UserDataResponse = await response.json();
+
+        dispatch(saveUserDataAction(userData));
+      } else {
+        const errorMessage = await response.json();
+        setError(errorMessage.message || "errore nel recuperare i dati dell'utente");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const editMyProfileFetch = (token: string, userDataUpdated: DataRegistration) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userDataUpdated),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(getUserDataFetch(token));
+      } else {
+        const erroMessage = await response.json();
+        console.log(erroMessage.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const getSeriesInListFetch = (token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
