@@ -83,6 +83,34 @@ export const editMyProfileFetch = (token: string, userDataUpdated: DataRegistrat
   };
 };
 
+export const updateProfilePictureFetch = (token: string, newAvatar: File, userId: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const formData = new FormData();
+      formData.append("pic", newAvatar); // Aggiungi il file dell'immagine a FormData
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`, // Aggiungi il token per l'autenticazione
+        },
+        body: formData, // Passa FormData come corpo della richiesta
+      });
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        console.log("Foto profilo aggiornata con successo!", updatedUser);
+        dispatch(getUserDataFetch(token));
+      } else {
+        const errorMessage = await response.json();
+        console.log(errorMessage.message || "Errore nell'aggiornamento della foto profilo");
+      }
+    } catch (error) {
+      console.log("Si è verificato un errore:", error);
+    }
+  };
+};
+
 export const getSeriesInListFetch = (token: string) => {
   return async (dispatch: AppDispatch) => {
     try {

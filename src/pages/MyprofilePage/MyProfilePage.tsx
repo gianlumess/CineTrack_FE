@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import styles from "./MyProfilePage.module.scss";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { DataRegistration } from "../../interfaces/UserInterfaces";
-import { editMyProfileFetch } from "../../redux/actions/userActions";
+import { editMyProfileFetch, updateProfilePictureFetch } from "../../redux/actions/userActions";
 
 const MyProfilePage = () => {
   const token: string = localStorage.getItem("token");
@@ -167,7 +167,10 @@ const MyProfilePage = () => {
             <Button
               variant="primary"
               onClick={() => {
-                /* Logica per salvare la nuova foto */
+                if (newAvatar) {
+                  dispatch(updateProfilePictureFetch(token, newAvatar, user.id));
+                  toggleAvatarModal();
+                }
               }}
             >
               Salva Foto
