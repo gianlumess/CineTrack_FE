@@ -107,7 +107,9 @@ const Mynavbar = () => {
             </NavLink>
             <NavLink>Film</NavLink>
             <NavLink>Serie TV</NavLink>
-            <NavLink>La mia lista</NavLink>
+            <NavLink as={Link} to={"/my-lists"}>
+              La mia lista
+            </NavLink>
           </Nav>
           <Form
             className="me-auto"

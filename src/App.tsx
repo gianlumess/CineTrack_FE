@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MovieDetailPage from "./pages/MovieDetailPage/MovieDetailPage";
 import SeriesDetailPage from "./pages/SeriesDetailPage/SeriesDetailPage";
 import MyProfilePage from "./pages/MyprofilePage/MyProfilePage";
+import MyListsPage from "./pages/MyListsPage/MyListsPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/movie-detail/:movieId" element={<MovieDetailPage />}></Route>
           <Route path="/series-detail/:seriesId" element={<SeriesDetailPage />}></Route>
           <Route path="/my-profile" element={<MyProfilePage />}></Route>
+          <Route path="/my-lists" element={<MyListsPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>
