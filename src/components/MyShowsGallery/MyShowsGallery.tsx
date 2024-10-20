@@ -1,4 +1,4 @@
-import { Col, Image, Row } from "react-bootstrap";
+import { Col, Image, Row, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { UserMovie, UserSeries } from "../../interfaces/UserInterfaces";
 import { useEffect, useState } from "react";
@@ -73,20 +73,23 @@ const MyShowsGallery: React.FC<MyshowsGalleryProps> = ({ shows }) => {
   }, [shows, token]);
   return (
     <section className="my-3 d-flex flex-column">
-      {/* {this.state.isLoading && <Spinner animation="border" role="status" variant="currentColor"></Spinner>} */}
-      <Row className="gx-2 gy-2">
-        {showDetails.map((show) => (
-          <Col xs={12} sm={6} md={4} lg={3} xxl={2} key={show.id}>
-            <Link to={show.title ? `/movie-detail/${show.id}` : `/series-detail/${show.id}`}>
-              <Image
-                className="img-fluid w-100 poster-show"
-                src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-                alt={show.title || show.name}
-              />
-            </Link>
-          </Col>
-        ))}
-      </Row>
+      {isLoading ? (
+        <Spinner animation="border" role="status" variant="primary" />
+      ) : (
+        <Row className="gx-2 gy-2">
+          {showDetails.map((show) => (
+            <Col xs={12} sm={6} md={4} lg={3} xxl={2} key={show.id}>
+              <Link to={show.title ? `/movie-detail/${show.id}` : `/series-detail/${show.id}`}>
+                <Image
+                  className="img-fluid w-100 poster-show"
+                  src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                  alt={show.title || show.name}
+                />
+              </Link>
+            </Col>
+          ))}
+        </Row>
+      )}
     </section>
   );
 };
