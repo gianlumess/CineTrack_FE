@@ -26,10 +26,11 @@ import {
   getUserDataFetch,
   saveUserDataAction,
 } from "../../redux/actions/userActions";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Mynavbar = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const userData = useSelector((state: RootState) => state.user.user);
   const [error, setError] = useState("");
   const token: string = localStorage.getItem("token");
@@ -117,6 +118,7 @@ const Mynavbar = () => {
               e.preventDefault();
               getSearchedMoviesFetch(token, searchQuery);
               getSearchedSeriesFetch(token, searchQuery);
+              navigate("/search");
             }}
           >
             <Row>
@@ -151,7 +153,9 @@ const Mynavbar = () => {
             </DropdownToggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>Le mie info</Dropdown.Item>
+              <Dropdown.Item as={Link} to={"/my-profile"}>
+                Le mie info
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </NavbarCollapse>
