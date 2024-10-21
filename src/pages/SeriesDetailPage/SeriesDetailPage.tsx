@@ -221,6 +221,7 @@ const SeriesDetailPage = () => {
         <Col md={3} className="d-flex flex-column justify-content-end">
           {seriesList.some((series) => series.seriesId.toString() === seriesId) ? (
             <Button
+              variant="danger"
               onClick={() => {
                 deleteSeriesFromListFetch(token, seriesId, dispatch);
               }}
@@ -231,6 +232,7 @@ const SeriesDetailPage = () => {
           ) : (
             <>
               <Button
+                variant="secondary"
                 onClick={() => {
                   const showStatus = "WATCHED";
                   saveSeriesInListFetch(token, { showStatus, seriesId });

@@ -59,7 +59,7 @@ const StarRating: React.FC<StarRatingProps> = ({ getMyRatingFetch }) => {
         return (
           <span
             key={index}
-            className={`${styles.star} ${starNumber <= (hoveredRating || currentRating) ? styles.filled : ""}`}
+            className={`${styles.star} ${starNumber <= (hoveredRating || currentRating) ? "text-accent" : ""}`}
             onMouseEnter={() => setHoveredRating(starNumber)}
             onMouseLeave={() => setHoveredRating(0)}
             onClick={() => handleStarClick(starNumber)}

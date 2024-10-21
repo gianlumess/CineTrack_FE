@@ -221,6 +221,7 @@ const MovieDetailPage = () => {
         <Col md={3} className="d-flex flex-column justify-content-end">
           {moviesList.some((movie) => movie.movieId.toString() === movieId) ? (
             <Button
+              variant="danger"
               onClick={() => {
                 deleteMovieFromListFetch(token, movieId, dispatch);
               }}
@@ -231,6 +232,7 @@ const MovieDetailPage = () => {
           ) : (
             <>
               <Button
+                variant="secondary"
                 onClick={() => {
                   const showStatus = "WATCHED";
                   saveMovieInListFetch(token, { showStatus, movieId });

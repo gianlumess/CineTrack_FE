@@ -1,0 +1,28 @@
+@import "/node_modules/bootstrap/scss/_functions.scss";
+
+$text: #f0f0f0;
+$background: #0d1b2a;
+$primary: #ff6f00;
+$secondary: #7c7a7a;
+$accent: #a3e635;
+
+$custom-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "accent": $accent,
+  "dark": $background,
+  "light": $text,
+  "success": $accent,
+  "info": $secondary,
+) !default;
+
+@import "/node_modules/bootstrap/scss/variables";
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import "/node_modules/bootstrap/scss/bootstrap.scss";
+
+body {
+  background-color: $background;
+  color: $text;
+}

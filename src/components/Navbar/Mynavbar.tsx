@@ -95,20 +95,20 @@ const Mynavbar = () => {
   }, []);
 
   return (
-    <Navbar expand="lg" className={`bg-body-tertiary ${styles.navbar}`}>
+    <Navbar expand="lg" className={`bg-dark text-light  ${styles.navbar}`}>
       <Container>
-        <NavbarBrand as={Link} to={"/"}>
+        <NavbarBrand className="text-light" as={Link} to={"/"}>
           CineTrack
         </NavbarBrand>
         <NavbarToggle aria-controls="basic-navbar-nav" />
         <NavbarCollapse id="basic-navbar-nav">
           <Nav className={` ${styles.navbar__navLinks}`}>
-            <NavLink as={Link} to={"/"}>
+            <NavLink className="text-light" as={Link} to={"/"}>
               Esplora
             </NavLink>
-            <NavLink>Film</NavLink>
-            <NavLink>Serie TV</NavLink>
-            <NavLink as={Link} to={"/my-lists"}>
+            <NavLink className="text-light">Film</NavLink>
+            <NavLink className="text-light">Serie TV</NavLink>
+            <NavLink className="text-light" as={Link} to={"/my-lists"}>
               La mia lista
             </NavLink>
           </Nav>

@@ -45,7 +45,7 @@ const CastCard: React.FC<CreditCardProps> = ({ content }) => {
     <Slider {...settings}>
       {content.cast.map((person) => (
         <Carousel.Item key={person.id}>
-          <Card className="text-center">
+          <Card className="text-center bg-dark text-light border-0">
             <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt={person.name} />
             <Card.Body>
               <Card.Title>{person.name}</Card.Title>
