@@ -65,15 +65,15 @@ const MyProfilePage = () => {
     <>
       <Mynavbar />
       <div className={styles.profilePage}>
-        <Card className={styles.profileCard}>
-          <div className={styles.profileHeader}>
+        <Card className={`${styles.profileCard} border border-accent`}>
+          <div className={`${styles.profileHeader} bg-secondary text-light`}>
             <img src={user?.avatar} alt="Profile" className={styles.profileImage} />
             <div className={styles.profileInfo}>
               <h3>{user?.username}</h3>
               <p>{user?.email}</p>
             </div>
           </div>
-          <Card.Body className={styles.profileBody}>
+          <Card.Body className="bg-dark text-light">
             <p>
               <strong>Nome:</strong> {user?.name}
             </p>
@@ -92,12 +92,12 @@ const MyProfilePage = () => {
 
         {/* Modale per modificare i dati dell'utente */}
         <Modal show={showEditModal} onHide={toggleEditModal}>
-          <Form onSubmit={handleSubmit}>
+          <Form className="bg-dark text-light rounded" onSubmit={handleSubmit}>
             <Modal.Header closeButton>
               <Modal.Title>Modifica Dati Personali</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-3 ">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                   type="text"
@@ -150,32 +150,34 @@ const MyProfilePage = () => {
 
         {/* Modale per cambiare la foto profilo */}
         <Modal show={showAvatarModal} onHide={toggleAvatarModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Cambia Foto Profilo</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form.Group>
-              <Form.Label>Carica una nuova foto</Form.Label>
-              <Form.Control type="file" onChange={handleAvatarChange} />
-              {previewUrl && <img src={previewUrl} alt="Anteprima Avatar" className="mt-3 w-100" />}
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={toggleAvatarModal}>
-              Annulla
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                if (newAvatar) {
-                  dispatch(updateProfilePictureFetch(token, newAvatar, user.id));
-                  toggleAvatarModal();
-                }
-              }}
-            >
-              Salva Foto
-            </Button>
-          </Modal.Footer>
+          <Form className="bg-secondary text-light  rounded">
+            <Modal.Header closeButton>
+              <Modal.Title>Cambia Foto Profilo</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Group>
+                <Form.Label>Carica una nuova foto</Form.Label>
+                <Form.Control type="file" onChange={handleAvatarChange} />
+                {previewUrl && <img src={previewUrl} alt="Anteprima Avatar" className="mt-3 w-100" />}
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={toggleAvatarModal}>
+                Annulla
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  if (newAvatar) {
+                    dispatch(updateProfilePictureFetch(token, newAvatar, user.id));
+                    toggleAvatarModal();
+                  }
+                }}
+              >
+                Salva Foto
+              </Button>
+            </Modal.Footer>
+          </Form>
         </Modal>
       </div>
     </>

@@ -41,7 +41,7 @@ const LoginPage = () => {
     <Container className={styles.loginPage}>
       <Row>
         <Col>
-          <h2>Accedi</h2>
+          <h2 className="mb-3">Accedi</h2>
           <Form
             onSubmit={(e) => {
               e.preventDefault();
@@ -71,7 +71,7 @@ const LoginPage = () => {
             </Form.Group>
             {error && <p className="text-danger">{error}</p>}
             <Button variant="primary" type="submit">
-              Submit
+              Login
             </Button>
           </Form>
         </Col>

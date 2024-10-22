@@ -41,7 +41,7 @@ const RegistrationPage = () => {
     <Container className={styles.registrationPage}>
       <Row>
         <Col>
-          <h2>Registrati</h2>
+          <h2 className="mb-3">Registrati</h2>
           <Form
             onSubmit={(e) => {
               e.preventDefault();
@@ -52,7 +52,7 @@ const RegistrationPage = () => {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Username"
+                placeholder="Inserisci Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -60,10 +60,10 @@ const RegistrationPage = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicName">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Nome</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Name"
+                placeholder="Inserisci Nome"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -71,10 +71,10 @@ const RegistrationPage = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicSurname">
-              <Form.Label>Surname</Form.Label>
+              <Form.Label>Cognome</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Surname"
+                placeholder="Inserisci Cognome"
                 value={surname}
                 onChange={(e) => setSurname(e.target.value)}
                 required
@@ -82,10 +82,10 @@ const RegistrationPage = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter email"
+                placeholder="Inserisci email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -104,7 +104,7 @@ const RegistrationPage = () => {
             </Form.Group>
             {error && <p className="text-danger">{error}</p>}
             <Button variant="primary" type="submit">
-              Submit
+              Registrati
             </Button>
           </Form>
         </Col>
