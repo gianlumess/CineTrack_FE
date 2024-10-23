@@ -97,7 +97,7 @@ const EsploraPage = () => {
     <>
       <Mynavbar />
       <HeroBanner />
-      <Container>
+      <Container className="mt-5">
         <h2 className="mb-4 d-inline-block">Film di tendenza</h2>
         <MovieCard content={trendingMovies} />
         <h2 className="mb-4 d-inline-block">Film più votati</h2>

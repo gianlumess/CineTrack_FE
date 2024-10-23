@@ -185,6 +185,7 @@ const MovieDetailPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (token) {
       getMovieDetailsFetch(token);
       getMovieCreditsFetch(token);
@@ -290,8 +291,13 @@ const MovieDetailPage = () => {
           <Col md={9}>
             <h2>CAST</h2>
             {movieCredits && <CastCard content={movieCredits} />}
-            <h2 className="mt-2">Film consigliati</h2>
-            {similarMovies && <MovieCard content={similarMovies} />}
+
+            {similarMovies.length > 0 && (
+              <>
+                <h2 className="mt-2">Film consigliati</h2>
+                <MovieCard content={similarMovies} />
+              </>
+            )}
             <h2>Lascia la tua valutazione</h2>
             <StarRating getMyRatingFetch={getMyRatingFetch} />
             {/* box per lasciare un commento */}

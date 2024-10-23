@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DataLogin } from "../../interfaces/UserInterfaces";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "./LoginPage.module.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -74,6 +74,12 @@ const LoginPage = () => {
               Login
             </Button>
           </Form>
+          <p className="mt-5">
+            Non hai un account?
+            <Link className={styles.loginPage__link} to={"/register"}>
+              <span className="text-accent ms-2">Registrati</span>
+            </Link>
+          </p>
         </Col>
       </Row>
     </Container>

@@ -24,7 +24,7 @@ import CastCard from "../../components/CastCard/CastCard";
 import MovieCard from "../../components/MovieCard/MovieCard";
 
 const SeriesDetailPage = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token")!;
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
@@ -290,8 +290,13 @@ const SeriesDetailPage = () => {
           <Col md={9}>
             <h2>CAST</h2>
             {seriesCredits && <CastCard content={seriesCredits} />}
-            <h2 className="mt-2">Serie consigliate</h2>
-            {similarSeries && <MovieCard content={similarSeries} />}
+
+            {similarSeries && (
+              <>
+                <h2 className="mt-2">Serie consigliate</h2>
+                <MovieCard content={similarSeries} />
+              </>
+            )}
             <h2>Lascia la tua valutazione</h2>
             <StarRating getMyRatingFetch={getMyRatingFetch} />
             {/* box per lasciare un commento */}
