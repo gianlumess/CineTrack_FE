@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import styles from "./TrendingMoviesPage.module.scss";
+import styles from "./TopRatedMoviesPage.module.scss";
 
-const TrendingMoviesPage = () => {
+const TopRatedMoviesPage = () => {
   const token: string = localStorage.getItem("token");
   const [movies, setMovies] = useState<any[]>([]);
   const [page, setPage] = useState(1);
 
-  const getPopularMoviesFetch = async (token: string, page = 1) => {
+  const getTopRatedMoviesFetch = async (token: string, page = 1) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/trending?page=${page}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/top_rated?page=${page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -29,7 +29,7 @@ const TrendingMoviesPage = () => {
     const nextPage = page + 1;
     setPage(nextPage);
 
-    getPopularMoviesFetch(token, nextPage);
+    getTopRatedMoviesFetch(token, nextPage);
 
     window.scrollTo({
       top: 0,
@@ -41,7 +41,7 @@ const TrendingMoviesPage = () => {
     if (page > 1) {
       const previousPage = page - 1;
       setPage(previousPage);
-      getPopularMoviesFetch(token, previousPage);
+      getTopRatedMoviesFetch(token, previousPage);
 
       window.scrollTo({
         top: 0,
@@ -51,7 +51,7 @@ const TrendingMoviesPage = () => {
   };
 
   useEffect(() => {
-    getPopularMoviesFetch(token, 1);
+    getTopRatedMoviesFetch(token, 1);
   }, [token]);
 
   return (
@@ -88,4 +88,4 @@ const TrendingMoviesPage = () => {
   );
 };
 
-export default TrendingMoviesPage;
+export default TopRatedMoviesPage;

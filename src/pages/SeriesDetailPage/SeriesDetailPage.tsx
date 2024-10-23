@@ -211,7 +211,7 @@ const SeriesDetailPage = () => {
         <Col md={6} className={styles.seriesDetails__topBanner__mainInfoSection}>
           <h1 className="mb-0">{seriesDetails?.name}</h1>
 
-          <div className={styles.seriesDetails__topBanner__mainInfoSection__genreTag}>
+          <div className={`${styles.seriesDetails__topBanner__mainInfoSection__genreTag} text-accent`}>
             {seriesDetails?.genres.map((genre) => (
               <span key={genre.id}>{genre.name}</span>
             ))}
