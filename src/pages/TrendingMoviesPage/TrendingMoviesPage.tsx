@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import MyShowsGallery from "../../components/MyShowsGallery/MyShowsGallery";
 import { Link } from "react-router-dom";
 import styles from "./TrendingMoviesPage.module.scss";
 
@@ -12,28 +11,50 @@ const TrendingMoviesPage = () => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
 
+  const getPopularMoviesFetch = async (token: string, page = 1) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/trending?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setMovies(data.results);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const loadMoreMovies = () => {
     const nextPage = page + 1;
     setPage(nextPage);
 
-    const getPopularMoviesFetch = async (token: string, page = 1) => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/trending?page=${page}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setMovies(data.results);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getPopularMoviesFetch(token, nextPage);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
+
+  const loadPreviousMovies = () => {
+    if (page > 1) {
+      const previousPage = page - 1;
+      setPage(previousPage);
+      getPopularMoviesFetch(token, previousPage);
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    getPopularMoviesFetch(token, 1);
+  }, [token]);
 
   return (
     <>
@@ -60,7 +81,10 @@ const TrendingMoviesPage = () => {
             ))}
           </Row>
         </section>
-        <button onClick={loadMoreMovies}>Successivi</button>
+        <div className="d-flex justify-content-between">
+          {page > 1 && <button onClick={loadPreviousMovies}>Precedenti</button>}
+          <button onClick={loadMoreMovies}>Successivi</button>
+        </div>
       </Container>
     </>
   );
