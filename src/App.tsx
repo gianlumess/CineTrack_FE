@@ -9,6 +9,7 @@ import SeriesDetailPage from "./pages/SeriesDetailPage/SeriesDetailPage";
 import MyProfilePage from "./pages/MyprofilePage/MyProfilePage";
 import MyListsPage from "./pages/MyListsPage/MyListsPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
+import TrendingMoviesPage from "./pages/TrendingMoviesPage/TrendingMoviesPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/my-profile" element={<MyProfilePage />}></Route>
           <Route path="/my-lists" element={<MyListsPage />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
+          <Route path="/trending-movies" element={<TrendingMoviesPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>

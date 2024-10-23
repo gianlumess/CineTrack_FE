@@ -106,7 +106,9 @@ const Mynavbar = () => {
             <NavLink className="text-light" as={Link} to={"/"}>
               Esplora
             </NavLink>
-            <NavLink className="text-light">Film</NavLink>
+            <NavLink className="text-light" as={Link} to={"/trending-movies"}>
+              Film
+            </NavLink>
             <NavLink className="text-light">Serie TV</NavLink>
             <NavLink className="text-light" as={Link} to={"/my-lists"}>
               La mia lista
