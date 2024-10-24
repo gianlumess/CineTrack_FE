@@ -88,6 +88,12 @@ const Mynavbar = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+
+    navigate("/login");
+  };
+
   useEffect(() => {
     dispatch(getUserDataFetch(token));
     dispatch(getMoviesInListFetch(token));
@@ -158,6 +164,7 @@ const Mynavbar = () => {
               <Dropdown.Item as={Link} to={"/my-profile"}>
                 Le mie info
               </Dropdown.Item>
+              <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </NavbarCollapse>

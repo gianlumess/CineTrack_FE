@@ -1,4 +1,4 @@
-import { Card, Carousel } from "react-bootstrap";
+import { Card, CardText, Carousel } from "react-bootstrap";
 import { CreditCardProps } from "../../interfaces/MoviesInterface";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -46,9 +46,18 @@ const CastCard: React.FC<CreditCardProps> = ({ content }) => {
       {content.cast.map((person) => (
         <Carousel.Item key={person.id}>
           <Card className="text-center bg-dark text-light border-0">
-            <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt={person.name} />
+            <Card.Img
+              variant="top"
+              src={
+                person.profile_path
+                  ? `https://image.tmdb.org/t/p/w500${person.profile_path}`
+                  : "https://via.placeholder.com/500x750?text=No+Image+Available"
+              }
+              alt={person.name}
+            />
             <Card.Body>
               <Card.Title>{person.name}</Card.Title>
+              <CardText>{person.character}</CardText>
             </Card.Body>
           </Card>
         </Carousel.Item>
