@@ -8,12 +8,11 @@ import {
   setSimilarSeriesAction,
 } from "../../redux/actions/seriesActions";
 import { AppDispatch, RootState } from "../../redux/store/store";
-import { NewCommentDTO, UserSeries, UserSeriesDTO } from "../../interfaces/UserInterfaces";
+import { NewCommentDTO, UserSeriesDTO } from "../../interfaces/UserInterfaces";
 import {
   deleteSeriesFromListFetch,
   getMyCommentAction,
   getMyRatingAction,
-  getSeriesInListAction,
   getSeriesInListFetch,
 } from "../../redux/actions/userActions";
 import Mynavbar from "../../components/Navbar/Mynavbar";
@@ -261,7 +260,9 @@ const SeriesDetailPage = () => {
           <Col md={3}>
             <p>
               <strong>Regista</strong>
-              <span className="d-block">{seriesCredits?.crew[0].name}</span>
+              <span className="d-block">
+                {seriesCredits?.crew && seriesCredits.crew.length > 0 ? seriesCredits.crew[0].name : "Sconosciuto"}
+              </span>
             </p>
             <p>
               <strong>Titolo originale</strong>

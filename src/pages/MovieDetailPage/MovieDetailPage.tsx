@@ -261,7 +261,9 @@ const MovieDetailPage = () => {
           <Col md={3}>
             <p>
               <strong>Regista</strong>
-              <span className="d-block">{movieCredits?.crew[0].name}</span>
+              <span className="d-block">
+                {movieCredits?.crew && movieCredits.crew.length > 0 ? movieCredits.crew[0].name : "Sconosciuto"}
+              </span>
             </p>
             <p>
               <strong>Titolo originale</strong>
