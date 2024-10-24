@@ -185,6 +185,7 @@ const SeriesDetailPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (token) {
       getSeriesDetailsFetch(token);
       getSeriesCreditsFetch(token);
@@ -302,18 +303,18 @@ const SeriesDetailPage = () => {
             {/* box per lasciare un commento */}
             <div className={styles.seriesDetails__commentSection}>
               <textarea
-                className={styles.seriesDetails__commentSection__comment}
+                className={`${styles.seriesDetails__commentSection__comment} bg-dark text-light`}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Lascia un commento..."
               />
-              <button className={styles.seriesDetails__commentSection__submitButton} onClick={handleCommentSubmit}>
+              <Button className={styles.seriesDetails__commentSection__submitButton} onClick={handleCommentSubmit}>
                 Invia Commento
-              </button>
+              </Button>
             </div>
             {/* sezione per visualizzare il proprio commento viasualizzabile solo se esiste il commento */}
             {myComment && (
-              <div className={styles.seriesDetails__commentBox}>
+              <div className={`${styles.seriesDetails__commentBox} bg-dark text-light`}>
                 <div className={styles.seriesDetails__commentBox__commentHeader}>
                   <img
                     src={userInfo.avatar}

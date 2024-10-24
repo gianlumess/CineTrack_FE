@@ -303,18 +303,18 @@ const MovieDetailPage = () => {
             {/* box per lasciare un commento */}
             <div className={styles.movieDetails__commentSection}>
               <textarea
-                className={styles.movieDetails__commentSection__comment}
+                className={`${styles.movieDetails__commentSection__comment} bg-dark text-light`}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Lascia un commento..."
               />
-              <button className={styles.movieDetails__commentSection__submitButton} onClick={handleCommentSubmit}>
+              <Button className={styles.movieDetails__commentSection__submitButton} onClick={handleCommentSubmit}>
                 Invia Commento
-              </button>
+              </Button>
             </div>
             {/* sezione per visualizzare il proprio commento viasualizzabile solo se esiste il commento */}
             {myComment && (
-              <div className={styles.movieDetails__commentBox}>
+              <div className={`${styles.movieDetails__commentBox} bg-dark text-liht`}>
                 <div className={styles.movieDetails__commentBox__commentHeader}>
                   <img
                     src={userInfo.avatar}
@@ -323,12 +323,12 @@ const MovieDetailPage = () => {
                   />
                   <div className={styles.movieDetails__commentBox__userInfo}>
                     <span className={styles.movieDetails__commentBox__userInfo__username}>{userInfo.username}</span>
-                    <span className={styles.movieDetails__commentBox__userInfo__date}>
+                    <span className={`${styles.movieDetails__commentBox__userInfo__date} lead`}>
                       {new Date(myComment.dateComment).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
-                <div className={styles.movieDetails__commentContent}>{myComment.content}</div>
+                <div className={styles.movieDetails__commentBox__commentContent}>{myComment.content}</div>
               </div>
             )}
           </Col>
