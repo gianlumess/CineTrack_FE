@@ -52,7 +52,11 @@ const MovieCard: React.FC<MovieCarouselProps> = ({ content }) => {
               <Card.Img
                 className={`${styles.movieCard__cardImage}`}
                 variant="top"
-                src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                src={
+                  show.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${show.poster_path}`
+                    : "https://via.placeholder.com/500x750?text=No+Image+Available"
+                }
                 alt={show.title || show.name}
               />
               <Card.Body>
