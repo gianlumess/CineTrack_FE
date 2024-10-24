@@ -112,10 +112,33 @@ const Mynavbar = () => {
             <NavLink className="text-light" as={Link} to={"/"}>
               Esplora
             </NavLink>
-            <NavLink className="text-light" as={Link} to={"/trending-movies"}>
-              Film
-            </NavLink>
-            <NavLink className="text-light">Serie TV</NavLink>
+            <Dropdown className="d-flex align-items-center">
+              <DropdownToggle as="span" className="text-light">
+                Film
+              </DropdownToggle>
+              <Dropdown.Menu>
+                <Dropdown.Item as={Link} to={"/trending-movies"}>
+                  Di tendenza
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to={"/top-rated-movies"}>
+                  Più votati
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown className="d-flex align-items-center">
+              <DropdownToggle as="span" className="text-light">
+                Serie TV
+              </DropdownToggle>
+              <Dropdown.Menu>
+                <Dropdown.Item as={Link} to={"/trending-series"}>
+                  Di tendenza
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to={"/top-rated-series"}>
+                  Più votate
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
             <NavLink className="text-light" as={Link} to={"/my-lists"}>
               La mia lista
             </NavLink>

@@ -150,7 +150,7 @@ const MyProfilePage = () => {
 
         {/* Modale per cambiare la foto profilo */}
         <Modal show={showAvatarModal} onHide={toggleAvatarModal}>
-          <Form className="bg-secondary text-light  rounded">
+          <Form className="bg-dark text-light  rounded">
             <Modal.Header closeButton>
               <Modal.Title>Cambia Foto Profilo</Modal.Title>
             </Modal.Header>

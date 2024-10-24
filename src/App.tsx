@@ -11,6 +11,8 @@ import MyListsPage from "./pages/MyListsPage/MyListsPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import TrendingMoviesPage from "./pages/TrendingMoviesPage/TrendingMoviesPage";
 import TopRatedMoviesPage from "./pages/TopRatedMoviesPage/TopRatedMoviesPage";
+import TrendingSeriesPage from "./pages/TrendingSeriesPage/TrendingSeriesPage";
+import TopRatedSeriesPage from "./pages/TopRatedSeriesPage/TopRatedSeriesPage";
 
 function App() {
   return (
@@ -26,7 +28,9 @@ function App() {
           <Route path="/my-lists" element={<MyListsPage />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
           <Route path="/trending-movies" element={<TrendingMoviesPage />}></Route>
-          <Route path="top-rated-movies" element={<TopRatedMoviesPage />}></Route>
+          <Route path="/top-rated-movies" element={<TopRatedMoviesPage />}></Route>
+          <Route path="/trending-series" element={<TrendingSeriesPage />}></Route>
+          <Route path="/top-rated-series" element={<TopRatedSeriesPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>

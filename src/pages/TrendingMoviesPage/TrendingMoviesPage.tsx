@@ -3,10 +3,12 @@ import Mynavbar from "../../components/Navbar/Mynavbar";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styles from "./TrendingMoviesPage.module.scss";
+import { Imovie } from "../../interfaces/MoviesInterface";
+import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 
 const TrendingMoviesPage = () => {
   const token: string = localStorage.getItem("token");
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<Imovie[]>([]);
   const [page, setPage] = useState(1);
 
   const getPopularMoviesFetch = async (token: string, page = 1) => {
@@ -68,7 +70,7 @@ const TrendingMoviesPage = () => {
                       className={`${styles.movieCard__cardImage}`}
                       variant="top"
                       src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title || movie.name}
+                      alt={movie.title}
                     />
                     <Card.Body>
                       <Card.Title>{movie.title}</Card.Title>
@@ -79,9 +81,21 @@ const TrendingMoviesPage = () => {
             ))}
           </Row>
         </section>
-        <div className="d-flex justify-content-between">
-          {page > 1 && <button onClick={loadPreviousMovies}>Precedenti</button>}
-          <button onClick={loadMoreMovies}>Successivi</button>
+        <div className="d-flex justify-content-center align-items-center">
+          <div className="d-flex align-items-center">
+            <ChevronLeft
+              onClick={page > 1 ? loadPreviousMovies : undefined}
+              style={{ cursor: page > 1 ? "pointer" : "not-allowed", opacity: page > 1 ? 1 : 0.5, fontSize: "2rem" }}
+            >
+              Precedenti
+            </ChevronLeft>
+          </div>
+
+          <div className="mx-3 d-flex align-items-center">
+            <ChevronRight onClick={loadMoreMovies} style={{ cursor: "pointer", fontSize: "2rem" }}>
+              Successivi
+            </ChevronRight>
+          </div>
         </div>
       </Container>
     </>
