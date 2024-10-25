@@ -25,6 +25,7 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 const SeriesDetailPage = () => {
   const token = localStorage.getItem("token")!;
   const dispatch: AppDispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
   const { seriesId } = useParams<{ seriesId: string }>();
@@ -185,156 +186,171 @@ const SeriesDetailPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (token) {
-      getSeriesDetailsFetch(token);
-      getSeriesCreditsFetch(token);
-      getSimilarSeriesFetch(token);
-      getMyCommentFetch(token);
-      getMyRatingFetch(token);
-    }
+    setIsLoading(true);
+    dispatch(getMyCommentAction(null));
+
+    Promise.all([
+      getSeriesDetailsFetch(token),
+      getSeriesCreditsFetch(token),
+      getSimilarSeriesFetch(token),
+      getMyCommentFetch(token),
+      getMyRatingFetch(token),
+    ])
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   }, [seriesId]);
 
   return (
     <>
-      <Mynavbar />
-      <Row
-        style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1280${seriesDetails?.backdrop_path})` }}
-        className={styles.seriesDetails__topBanner}
-      >
-        <Col md={3}>
-          <Image
-            className={styles.seriesDetails__topBanner__posterImage}
-            src={`https://image.tmdb.org/t/p/w500${seriesDetails?.poster_path}`}
-          ></Image>
-        </Col>
+      {!isLoading && (
+        <>
+          <Mynavbar />
+          <Row
+            style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1280${seriesDetails?.backdrop_path})` }}
+            className={styles.seriesDetails__topBanner}
+          >
+            <Col md={3}>
+              <Image
+                className={styles.seriesDetails__topBanner__posterImage}
+                src={`https://image.tmdb.org/t/p/w500${seriesDetails?.poster_path}`}
+              ></Image>
+            </Col>
 
-        <Col md={6} className={styles.seriesDetails__topBanner__mainInfoSection}>
-          <h1 className="mb-0">{seriesDetails?.name}</h1>
+            <Col md={6} className={styles.seriesDetails__topBanner__mainInfoSection}>
+              <h1 className="mb-0">{seriesDetails?.name}</h1>
 
-          <div className={`${styles.seriesDetails__topBanner__mainInfoSection__genreTag} text-accent`}>
-            {seriesDetails?.genres.map((genre) => (
-              <span key={genre.id}>{genre.name}</span>
-            ))}
-          </div>
-          <p>{seriesDetails?.overview}</p>
-        </Col>
-        <Col md={3} className="d-flex flex-column justify-content-end">
-          {seriesList.some((series) => series.seriesId.toString() === seriesId) ? (
-            <Button
-              variant="danger"
-              onClick={() => {
-                deleteSeriesFromListFetch(token, seriesId, dispatch);
-              }}
-              className="mb-3 ms-auto"
-            >
-              RIMUOVI DALLA LISTA
-            </Button>
-          ) : (
-            <>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  const showStatus = "WATCHED";
-                  saveSeriesInListFetch(token, { showStatus, seriesId });
-                }}
-                className="mb-3 ms-auto"
-              >
-                GIA' VISTO
-              </Button>
-              <Button
-                onClick={() => {
-                  const showStatus = "TO_WATCH";
-                  saveSeriesInListFetch(token, { showStatus, seriesId });
-                }}
-                className="ms-auto "
-              >
-                AGGIUNGI ALLA LISTA DA VEDERE
-              </Button>
-            </>
-          )}
-        </Col>
-      </Row>
-
-      <Container>
-        <Row className="mt-5">
-          <Col md={3}>
-            <p>
-              <strong>Regista</strong>
-              <span className="d-block">
-                {seriesCredits?.crew && seriesCredits.crew.length > 0 ? seriesCredits.crew[0].name : "Sconosciuto"}
-              </span>
-            </p>
-            <p>
-              <strong>Titolo originale</strong>
-              <span className="d-block">{seriesDetails?.original_name}</span>
-            </p>
-            <p>
-              <strong>Lingua originale</strong>
-              <span className="d-block">{seriesDetails?.original_language}</span>
-            </p>
-            <p>
-              <strong>Stato</strong>
-              <span className="d-block">{seriesDetails?.status}</span>
-            </p>
-            <p>
-              <strong>Durata episodio</strong>
-              <span className="d-block">{seriesDetails?.episode_run_time} min</span>
-            </p>
-            <p>
-              <strong>Numero Stagioni</strong>
-              <span className="d-block">{seriesDetails?.number_of_seasons}</span>
-            </p>
-            <p>
-              <strong>Numero episodi</strong>
-              <span className="d-block">{seriesDetails?.number_of_episodes}</span>
-            </p>
-          </Col>
-          <Col md={9}>
-            <h2>CAST</h2>
-            {seriesCredits && <CastCard content={seriesCredits} />}
-
-            {similarSeries && (
-              <>
-                <h2 className="mt-2">Serie consigliate</h2>
-                <MovieCard content={similarSeries} />
-              </>
-            )}
-            <h2>Lascia la tua valutazione</h2>
-            <StarRating getMyRatingFetch={getMyRatingFetch} />
-            {/* box per lasciare un commento */}
-            <div className={styles.seriesDetails__commentSection}>
-              <textarea
-                className={`${styles.seriesDetails__commentSection__comment} bg-dark text-light`}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Lascia un commento..."
-              />
-              <Button className={styles.seriesDetails__commentSection__submitButton} onClick={handleCommentSubmit}>
-                Invia Commento
-              </Button>
-            </div>
-            {/* sezione per visualizzare il proprio commento viasualizzabile solo se esiste il commento */}
-            {myComment && (
-              <div className={`${styles.seriesDetails__commentBox} bg-dark text-light`}>
-                <div className={styles.seriesDetails__commentBox__commentHeader}>
-                  <img
-                    src={userInfo.avatar}
-                    alt={`${userInfo.username}'s profile`}
-                    className={styles.seriesDetails__commentBox__profilePicture}
-                  />
-                  <div className={styles.seriesDetails__commentBox__userInfo}>
-                    <span className={styles.seriesDetails__commentBox__userInfo__username}>{userInfo.username}</span>
-                    <span className={styles.seriesDetails__commentBox__userInfo__date}>
-                      {new Date(myComment.dateComment).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-                <div className={styles.seriesDetails__commentContent}>{myComment.content}</div>
+              <div className={`${styles.seriesDetails__topBanner__mainInfoSection__genreTag} text-accent`}>
+                {seriesDetails?.genres.map((genre) => (
+                  <span key={genre.id}>{genre.name}</span>
+                ))}
               </div>
-            )}
-          </Col>
-        </Row>
-      </Container>
+              <p>{seriesDetails?.overview}</p>
+            </Col>
+            <Col md={3} className="d-flex flex-column justify-content-end">
+              {seriesList.some((series) => series.seriesId.toString() === seriesId) ? (
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    deleteSeriesFromListFetch(token, seriesId, dispatch);
+                  }}
+                  className="mb-3 ms-auto"
+                >
+                  RIMUOVI DALLA LISTA
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      const showStatus = "WATCHED";
+                      saveSeriesInListFetch(token, { showStatus, seriesId });
+                    }}
+                    className="mb-3 ms-auto"
+                  >
+                    GIA' VISTO
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      const showStatus = "TO_WATCH";
+                      saveSeriesInListFetch(token, { showStatus, seriesId });
+                    }}
+                    className="ms-auto "
+                  >
+                    AGGIUNGI ALLA LISTA DA VEDERE
+                  </Button>
+                </>
+              )}
+            </Col>
+          </Row>
+
+          <Container>
+            <Row className="mt-5">
+              <Col md={3}>
+                <p>
+                  <strong>Regista</strong>
+                  <span className="d-block">
+                    {seriesCredits?.crew && seriesCredits.crew.length > 0 ? seriesCredits.crew[0].name : "Sconosciuto"}
+                  </span>
+                </p>
+                <p>
+                  <strong>Titolo originale</strong>
+                  <span className="d-block">{seriesDetails?.original_name}</span>
+                </p>
+                <p>
+                  <strong>Lingua originale</strong>
+                  <span className="d-block">{seriesDetails?.original_language}</span>
+                </p>
+                <p>
+                  <strong>Stato</strong>
+                  <span className="d-block">{seriesDetails?.status}</span>
+                </p>
+                <p>
+                  <strong>Durata episodio</strong>
+                  <span className="d-block">{seriesDetails?.episode_run_time} min</span>
+                </p>
+                <p>
+                  <strong>Numero Stagioni</strong>
+                  <span className="d-block">{seriesDetails?.number_of_seasons}</span>
+                </p>
+                <p>
+                  <strong>Numero episodi</strong>
+                  <span className="d-block">{seriesDetails?.number_of_episodes}</span>
+                </p>
+              </Col>
+              <Col md={9}>
+                <h2>CAST</h2>
+                {seriesCredits && <CastCard content={seriesCredits} />}
+
+                {similarSeries && (
+                  <>
+                    <h2 className="mt-2">Serie consigliate</h2>
+                    <MovieCard content={similarSeries} />
+                  </>
+                )}
+                <h2>Lascia la tua valutazione</h2>
+                <StarRating getMyRatingFetch={getMyRatingFetch} />
+                {/* box per lasciare un commento */}
+                <div className={styles.seriesDetails__commentSection}>
+                  <textarea
+                    className={`${styles.seriesDetails__commentSection__comment} bg-dark text-light`}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Lascia un commento..."
+                  />
+                  <Button className={styles.seriesDetails__commentSection__submitButton} onClick={handleCommentSubmit}>
+                    Invia Commento
+                  </Button>
+                </div>
+                {/* sezione per visualizzare il proprio commento viasualizzabile solo se esiste il commento */}
+                {myComment && (
+                  <div className={`${styles.seriesDetails__commentBox} bg-dark text-light`}>
+                    <div className={styles.seriesDetails__commentBox__commentHeader}>
+                      <img
+                        src={userInfo.avatar}
+                        alt={`${userInfo.username}'s profile`}
+                        className={styles.seriesDetails__commentBox__profilePicture}
+                      />
+                      <div className={styles.seriesDetails__commentBox__userInfo}>
+                        <span className={styles.seriesDetails__commentBox__userInfo__username}>
+                          {userInfo.username}
+                        </span>
+                        <span className={styles.seriesDetails__commentBox__userInfo__date}>
+                          {new Date(myComment.dateComment).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className={styles.seriesDetails__commentContent}>{myComment.content}</div>
+                  </div>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        </>
+      )}
     </>
   );
 };
