@@ -222,7 +222,9 @@ const MovieDetailPage = () => {
             </Col>
 
             <Col md={6} className={styles.movieDetails__topBanner__mainInfoSection}>
-              <h1 className="mb-0">{movieDetails?.title}</h1>
+              <h1 className="mb-0">{`${movieDetails?.title} (${new Date(
+                movieDetails.release_date
+              ).getFullYear()}) `}</h1>
 
               <div className={`${styles.movieDetails__topBanner__mainInfoSection__genreTag} text-accent`}>
                 {movieDetails?.genres.map((genre) => (
