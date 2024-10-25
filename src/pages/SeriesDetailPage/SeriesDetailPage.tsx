@@ -216,7 +216,11 @@ const SeriesDetailPage = () => {
             <Col md={3}>
               <Image
                 className={styles.seriesDetails__topBanner__posterImage}
-                src={`https://image.tmdb.org/t/p/w500${seriesDetails?.poster_path}`}
+                src={
+                  seriesDetails?.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${seriesDetails?.poster_path}`
+                    : "https://via.placeholder.com/500x750?text=No+Image+Available"
+                }
               ></Image>
             </Col>
 

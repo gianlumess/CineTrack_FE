@@ -217,7 +217,11 @@ const MovieDetailPage = () => {
             <Col md={3}>
               <Image
                 className={styles.movieDetails__topBanner__posterImage}
-                src={`https://image.tmdb.org/t/p/w500${movieDetails?.poster_path}`}
+                src={
+                  movieDetails?.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${movieDetails?.poster_path}`
+                    : "https://via.placeholder.com/500x750?text=No+Image+Available"
+                }
               ></Image>
             </Col>
 

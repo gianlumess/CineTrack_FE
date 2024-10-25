@@ -21,7 +21,11 @@ const SearchPage = () => {
                 <Link to={`/movie-detail/${movie.id}`}>
                   <Image
                     className="img-fluid w-100 poster-movie"
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    src={
+                      movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                        : "https://via.placeholder.com/500x750?text=No+Image+Available"
+                    }
                     alt={movie.title}
                   />
                 </Link>
@@ -37,7 +41,11 @@ const SearchPage = () => {
                 <Link to={`/series-detail/${series.id}`}>
                   <Image
                     className="img-fluid w-100 poster-series"
-                    src={`https://image.tmdb.org/t/p/w500${series.poster_path}`}
+                    src={
+                      series.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${series.poster_path}`
+                        : "https://via.placeholder.com/500x750?text=No+Image+Available"
+                    }
                     alt={series.name}
                   />
                 </Link>
