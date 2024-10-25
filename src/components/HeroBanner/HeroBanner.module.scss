@@ -1,8 +1,40 @@
 .heroBanner {
-  height: 25em;
-  background-color: orange;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  position: relative;
+
+  .slick-slide {
+    position: relative;
+  }
+
+  &__image {
+    width: 100%;
+    height: 35em;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slideContainer {
+    position: relative;
+  }
+
+  &__overlay {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+
+  &__titleOverlay {
+    position: absolute;
+    bottom: 20px;
+    color: white;
+    z-index: 2;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    margin-left: 4em;
+    margin-bottom: 2em;
+  }
 }
