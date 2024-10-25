@@ -46,7 +46,7 @@ const MovieCard: React.FC<MovieCarouselProps> = ({ content }) => {
   return (
     <Slider {...settings}>
       {content.map((show) => (
-        <Carousel.Item key={show.id}>
+        <Carousel.Item className={styles.movieCard__carouselItem} key={show.id}>
           <Link to={show.title ? `/movie-detail/${show.id}` : `/series-detail/${show.id}`}>
             <Card className="text-center bg-dark text-light border-0">
               <Card.Img
