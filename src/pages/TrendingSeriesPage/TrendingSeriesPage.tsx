@@ -61,6 +61,7 @@ const TrendingSeriesPage = () => {
       <Mynavbar />
       <Container>
         <section className="my-3 d-flex flex-column">
+          <h1 className="mb-5 mt-3 display-4">Serie di tendenza</h1>
           <Row className="gx-2 gy-2">
             {movies.map((series) => (
               <Col xs={12} sm={6} md={4} lg={3} xxl={2} key={series.id}>

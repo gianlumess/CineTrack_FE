@@ -60,6 +60,7 @@ const TopRatedMoviesPage = () => {
       <Mynavbar />
       <Container>
         <section className="my-3 d-flex flex-column">
+          <h1 className="mb-5 mt-3 display-4">Film più votati</h1>
           <Row className="gx-2 gy-2">
             {movies.map((movie) => (
               <Col xs={12} sm={6} md={4} lg={3} xxl={2} key={movie.id}>

@@ -13,13 +13,13 @@ const MyListsPage = () => {
       <Container>
         {myMoviesList.length !== 0 && (
           <>
-            <h2>My movies</h2>
+            <h2 className="mb-5 mt-3 display-4">I miei film</h2>
             <MyShowsGallery shows={myMoviesList} />
           </>
         )}
         {mySeriesList.length !== 0 && (
           <>
-            <h2>My series</h2>
+            <h2 className="mb-5 mt-3 display-4">Le mie serie</h2>
             <MyShowsGallery shows={mySeriesList} />
           </>
         )}

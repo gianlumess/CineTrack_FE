@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MovieDetails } from "../../interfaces/MoviesInterface";
 
 import { SeriesDetails } from "../../interfaces/SeriesInterface";
+import styles from "./MyShowGallery.module.scss";
 
 interface MyshowsGalleryProps {
   shows: UserMovie[] | UserSeries[];
@@ -81,7 +82,7 @@ const MyShowsGallery: React.FC<MyshowsGalleryProps> = ({ shows }) => {
             <Col xs={12} sm={6} md={4} lg={3} xxl={2} key={show.id}>
               <Link to={show.title ? `/movie-detail/${show.id}` : `/series-detail/${show.id}`}>
                 <Image
-                  className="img-fluid w-100 poster-show"
+                  className={`${styles.card} img-fluid w-100 `}
                   src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
                   alt={show.title || show.name}
                 />
