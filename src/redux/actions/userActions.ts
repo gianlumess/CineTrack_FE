@@ -226,7 +226,7 @@ export const getSeriesInListAction = (seriesInList: UserSeries[]) => {
   };
 };
 
-export const getMyCommentAction = (comment: MyComment) => {
+export const getMyCommentAction = (comment: MyComment | null) => {
   return {
     type: GET_MY_COMMENT,
     payload: comment,
