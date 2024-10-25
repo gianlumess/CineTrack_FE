@@ -163,7 +163,9 @@ const Mynavbar = () => {
                 />
               </Col>
               <Col xs="auto">
-                <Button type="submit">Submit</Button>
+                <Button className={styles.navbar__submitButton} type="submit">
+                  Cerca
+                </Button>
               </Col>
             </Row>
           </Form>

@@ -188,7 +188,7 @@ const MovieDetailPage = () => {
     window.scrollTo(0, 0);
 
     setIsLoading(true);
-    dispatch(getMyCommentAction(null)); // Inizia il caricamento
+    dispatch(getMyCommentAction(null));
 
     Promise.all([
       getMovieDetailsFetch(token),
@@ -196,13 +196,12 @@ const MovieDetailPage = () => {
       getSimilarMoviesFetch(token),
       getMyCommentFetch(token),
       getMyRatingFetch(token),
-      // Aggiungi qui altre fetch che ti servono
     ])
       .then(() => {
-        setIsLoading(false); // Fine del caricamento quando tutte le fetch sono completate
+        setIsLoading(false);
       })
       .catch(() => {
-        setIsLoading(false); // Fine del caricamento anche in caso di errore
+        setIsLoading(false);
       });
   }, [movieId]);
 
@@ -260,7 +259,7 @@ const MovieDetailPage = () => {
                       const showStatus = "TO_WATCH";
                       saveMovieInListFetch(token, { showStatus, movieId });
                     }}
-                    className="ms-auto "
+                    className={`ms-auto ${styles.movieDetails__topBanner__primaryButton}`}
                   >
                     AGGIUNGI ALLA LISTA DA VEDERE
                   </Button>

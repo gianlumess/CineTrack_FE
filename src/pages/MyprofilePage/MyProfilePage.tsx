@@ -82,7 +82,9 @@ const MyProfilePage = () => {
             </p>
 
             <div className={styles.editButton}>
-              <Button onClick={toggleEditModal}>Modifica Dati</Button>
+              <Button className={styles.primaryButton} onClick={toggleEditModal}>
+                Modifica Dati
+              </Button>
               <Button variant="secondary" onClick={toggleAvatarModal} className="ms-2">
                 Cambia Foto Profilo
               </Button>
@@ -141,7 +143,7 @@ const MyProfilePage = () => {
               <Button variant="secondary" onClick={toggleEditModal}>
                 Annulla
               </Button>
-              <Button variant="primary" type="submit">
+              <Button className={styles.primaryButton} variant="primary" type="submit">
                 Salva
               </Button>
             </Modal.Footer>
@@ -166,6 +168,7 @@ const MyProfilePage = () => {
                 Annulla
               </Button>
               <Button
+                className={styles.primaryButton}
                 variant="primary"
                 onClick={() => {
                   if (newAvatar) {

@@ -258,7 +258,7 @@ const SeriesDetailPage = () => {
                       const showStatus = "TO_WATCH";
                       saveSeriesInListFetch(token, { showStatus, seriesId });
                     }}
-                    className="ms-auto "
+                    className={`ms-auto ${styles.seriesDetails__topBanner__primaryButton}`}
                   >
                     AGGIUNGI ALLA LISTA DA VEDERE
                   </Button>
