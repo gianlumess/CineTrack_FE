@@ -8,6 +8,7 @@ const HeroBanner = () => {
 
   const settings = {
     dots: true,
+    arrows: false,
     infinite: true,
     speed: 500,
     autoplay: true,

@@ -103,7 +103,7 @@ const Mynavbar = () => {
   return (
     <Navbar expand="lg" className={`bg-dark text-light  ${styles.navbar}`}>
       <Container>
-        <NavbarBrand className="text-light" as={Link} to={"/"}>
+        <NavbarBrand className="text-accent me-5" as={Link} to={"/"}>
           CineTrack
         </NavbarBrand>
         <NavbarToggle aria-controls="basic-navbar-nav" />
@@ -139,7 +139,7 @@ const Mynavbar = () => {
               </Dropdown.Menu>
             </Dropdown>
 
-            <NavLink className="text-light" as={Link} to={"/my-lists"}>
+            <NavLink className="text-light me-5" as={Link} to={"/my-lists"}>
               La mia lista
             </NavLink>
           </Nav>
