@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { DataRegistration } from "../../interfaces/UserInterfaces";
 import styles from "./RegistrationPage.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationPage = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -27,7 +29,7 @@ const RegistrationPage = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        navigate("/login");
       } else {
         const errorMessage = await response.json();
         setError(errorMessage.message || "errore durante la registrazione");
