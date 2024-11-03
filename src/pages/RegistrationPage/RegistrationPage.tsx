@@ -20,7 +20,7 @@ const RegistrationPage = () => {
 
   const registrationFetch = async (dataRegistration: DataRegistration) => {
     try {
-      const response = await fetch("http://localhost:3001/authorization/register", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/authorization/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
