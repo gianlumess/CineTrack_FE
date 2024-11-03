@@ -7,7 +7,7 @@ import { Imovie } from "../../interfaces/MoviesInterface";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 
 const TrendingMoviesPage = () => {
-  const token: string = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   const [movies, setMovies] = useState<Imovie[]>([]);
   const [page, setPage] = useState(1);
 
@@ -28,22 +28,11 @@ const TrendingMoviesPage = () => {
   };
 
   const loadMoreMovies = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
+    if (token) {
+      const nextPage = page + 1;
+      setPage(nextPage);
 
-    getPopularMoviesFetch(token, nextPage);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  const loadPreviousMovies = () => {
-    if (page > 1) {
-      const previousPage = page - 1;
-      setPage(previousPage);
-      getPopularMoviesFetch(token, previousPage);
+      getPopularMoviesFetch(token, nextPage);
 
       window.scrollTo({
         top: 0,
@@ -52,8 +41,23 @@ const TrendingMoviesPage = () => {
     }
   };
 
+  const loadPreviousMovies = () => {
+    if (token) {
+      if (page > 1) {
+        const previousPage = page - 1;
+        setPage(previousPage);
+        getPopularMoviesFetch(token, previousPage);
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   useEffect(() => {
-    getPopularMoviesFetch(token, 1);
+    if (token) getPopularMoviesFetch(token, 1);
   }, [token]);
 
   return (

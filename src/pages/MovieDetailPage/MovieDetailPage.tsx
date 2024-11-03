@@ -6,7 +6,7 @@ import {
   setSimilarMoviesAction,
 } from "../../redux/actions/moviesActions";
 import { MovieCredits, MovieDetails } from "../../interfaces/MoviesInterface";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import styles from "./MovieDetailPage.module.scss";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
@@ -26,7 +26,6 @@ const MovieDetailPage = () => {
   const token = localStorage.getItem("token");
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
   const [comment, setComment] = useState("");
   const { movieId } = useParams<{ movieId: string }>();
   const userInfo = useSelector((state: RootState) => state.user.user);
@@ -36,43 +35,49 @@ const MovieDetailPage = () => {
   const similarMovies = useSelector((state: RootState) => state.movies.similarMovies);
   const myComment = useSelector((state: RootState) => state.user.myComment);
 
-  const getMovieDetailsFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const movieData: MovieDetails = await response.json();
-        dispatch(setMovieDetailsAction(movieData));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare i dati del film");
+  const getMovieDetailsFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const movieData: MovieDetails = await response.json();
+          dispatch(setMovieDetailsAction(movieData));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare i dati del film");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [movieId, dispatch]
+  );
 
-  const getMovieCreditsFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}/credits`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const movieData: MovieCredits = await response.json();
-        dispatch(setMovieCreditsAction(movieData));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare i crediti del film");
+  const getMovieCreditsFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}/credits`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const movieData: MovieCredits = await response.json();
+          dispatch(setMovieCreditsAction(movieData));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare i crediti del film");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [movieId, dispatch]
+  );
 
   const saveMovieInListFetch = async (token: string, movie: UserMovieDTO) => {
     try {
@@ -90,69 +95,78 @@ const MovieDetailPage = () => {
         dispatch(getMoviesInListFetch(token));
       } else {
         const errorMessage = await response.json();
-        setError(errorMessage.message || "errore nel salvare il film nella tua lista");
+        console.log(errorMessage.message || "errore nel salvare il film nella tua lista");
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const getSimilarMoviesFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}/similar`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(setSimilarMoviesAction(data.results));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare i dati dei film");
+  const getSimilarMoviesFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/${movieId}/similar`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(setSimilarMoviesAction(data.results));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare i dati dei film");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [dispatch, movieId]
+  );
 
-  const getMyCommentFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/me/${movieId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(getMyCommentAction(data));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare il commento");
+  const getMyCommentFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/me/${movieId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(getMyCommentAction(data));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare il commento");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [dispatch, movieId]
+  );
 
-  const getMyRatingFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings/me/${movieId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(getMyRatingAction(data));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare la valutazione");
+  const getMyRatingFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings/me/${movieId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(getMyRatingAction(data));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare la valutazione");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [dispatch, movieId]
+  );
 
   const saveCommentFetch = async (token: string, rating: NewCommentDTO) => {
     try {
@@ -170,7 +184,7 @@ const MovieDetailPage = () => {
         await getMyCommentFetch(token);
       } else {
         const errorMessage = await response.json();
-        setError(errorMessage.message || "errore nel salvare il commento");
+        console.log(errorMessage.message || "errore nel salvare il commento");
       }
     } catch (err) {
       console.log(err);
@@ -178,10 +192,12 @@ const MovieDetailPage = () => {
   };
 
   const handleCommentSubmit = () => {
-    const newComment: NewCommentDTO = {
-      content: comment,
-    };
-    saveCommentFetch(token, newComment);
+    if (token) {
+      const newComment: NewCommentDTO = {
+        content: comment,
+      };
+      saveCommentFetch(token, newComment);
+    }
   };
 
   useEffect(() => {
@@ -190,20 +206,30 @@ const MovieDetailPage = () => {
     setIsLoading(true);
     dispatch(getMyCommentAction(null));
 
-    Promise.all([
-      getMovieDetailsFetch(token),
-      getMovieCreditsFetch(token),
-      getSimilarMoviesFetch(token),
-      getMyCommentFetch(token),
-      getMyRatingFetch(token),
-    ])
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [movieId]);
+    if (token) {
+      Promise.all([
+        getMovieDetailsFetch(token),
+        getMovieCreditsFetch(token),
+        getSimilarMoviesFetch(token),
+        getMyCommentFetch(token),
+        getMyRatingFetch(token),
+      ])
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [
+    token,
+    dispatch,
+    getMovieCreditsFetch,
+    getMovieDetailsFetch,
+    getMyCommentFetch,
+    getMyRatingFetch,
+    getSimilarMoviesFetch,
+  ]);
 
   return (
     <>
@@ -225,24 +251,27 @@ const MovieDetailPage = () => {
               ></Image>
             </Col>
 
-            <Col md={6} className={styles.movieDetails__topBanner__mainInfoSection}>
-              <h1 className="mb-0">{`${movieDetails?.title} (${new Date(
-                movieDetails.release_date
-              ).getFullYear()}) `}</h1>
-
-              <div className={`${styles.movieDetails__topBanner__mainInfoSection__genreTag} text-accent`}>
-                {movieDetails?.genres.map((genre) => (
-                  <span key={genre.id}>{genre.name}</span>
-                ))}
-              </div>
-              <p>{movieDetails?.overview}</p>
-            </Col>
+            {movieDetails && (
+              <Col md={6} className={styles.movieDetails__topBanner__mainInfoSection}>
+                <h1 className="mb-0">{`${movieDetails.title} (${new Date(
+                  movieDetails.release_date
+                ).getFullYear()}) `}</h1>
+                <div className={`${styles.movieDetails__topBanner__mainInfoSection__genreTag} text-accent`}>
+                  {movieDetails.genres.map((genre) => (
+                    <span key={genre.id}>{genre.name}</span>
+                  ))}
+                </div>
+                <p>{movieDetails.overview}</p>
+              </Col>
+            )}
             <Col md={3} className="d-flex flex-column justify-content-end">
               {moviesList.some((movie) => movie.movieId.toString() === movieId) ? (
                 <Button
                   variant="danger"
                   onClick={() => {
-                    deleteMovieFromListFetch(token, movieId, dispatch);
+                    if (token && movieId) {
+                      deleteMovieFromListFetch(token, movieId, dispatch);
+                    }
                   }}
                   className="mb-3 ms-auto"
                 >
@@ -254,7 +283,9 @@ const MovieDetailPage = () => {
                     variant="secondary"
                     onClick={() => {
                       const showStatus = "WATCHED";
-                      saveMovieInListFetch(token, { showStatus, movieId });
+                      if (token && movieId !== undefined) {
+                        saveMovieInListFetch(token, { showStatus, movieId: Number(movieId) });
+                      }
                     }}
                     className="mb-3 ms-auto"
                   >
@@ -263,7 +294,9 @@ const MovieDetailPage = () => {
                   <Button
                     onClick={() => {
                       const showStatus = "TO_WATCH";
-                      saveMovieInListFetch(token, { showStatus, movieId });
+                      if (token) {
+                        saveMovieInListFetch(token, { showStatus, movieId: Number(movieId) });
+                      }
                     }}
                     className={`ms-auto ${styles.movieDetails__topBanner__primaryButton}`}
                   >

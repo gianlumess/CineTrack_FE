@@ -8,7 +8,7 @@ import { DataRegistration } from "../../interfaces/UserInterfaces";
 import { editMyProfileFetch, updateProfilePictureFetch } from "../../redux/actions/userActions";
 
 const MyProfilePage = () => {
-  const token: string = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
 
@@ -57,8 +57,10 @@ const MyProfilePage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(editMyProfileFetch(token, formData));
-    toggleEditModal();
+    if (token) {
+      dispatch(editMyProfileFetch(token, formData));
+      toggleEditModal();
+    }
   };
 
   return (
@@ -171,7 +173,7 @@ const MyProfilePage = () => {
                 className={styles.primaryButton}
                 variant="primary"
                 onClick={() => {
-                  if (newAvatar) {
+                  if (newAvatar && token) {
                     dispatch(updateProfilePictureFetch(token, newAvatar, user.id));
                     toggleAvatarModal();
                   }

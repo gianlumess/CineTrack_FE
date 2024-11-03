@@ -20,20 +20,14 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import { setSearchedMoviesAction } from "../../redux/actions/moviesActions";
 import { useEffect, useState } from "react";
 import { setSearchedSeriesAction } from "../../redux/actions/seriesActions";
-import {
-  getMoviesInListFetch,
-  getSeriesInListFetch,
-  getUserDataFetch,
-  saveUserDataAction,
-} from "../../redux/actions/userActions";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { getMoviesInListFetch, getSeriesInListFetch, getUserDataFetch } from "../../redux/actions/userActions";
+import { Link, useNavigate } from "react-router-dom";
 
 const Mynavbar = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state: RootState) => state.user.user);
-  const [error, setError] = useState("");
-  const token: string = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   const [searchQuery, setSearchQuery] = useState("");
 
   /*  const getUserDataFetch = async (token: string) => {
@@ -95,10 +89,12 @@ const Mynavbar = () => {
   };
 
   useEffect(() => {
-    dispatch(getUserDataFetch(token));
-    dispatch(getMoviesInListFetch(token));
-    dispatch(getSeriesInListFetch(token));
-  }, []);
+    if (token !== null) {
+      dispatch(getUserDataFetch(token));
+      dispatch(getMoviesInListFetch(token));
+      dispatch(getSeriesInListFetch(token));
+    }
+  }, [token, dispatch]);
 
   return (
     <Navbar expand="lg" className={`bg-dark text-light  ${styles.navbar}`}>
@@ -147,8 +143,8 @@ const Mynavbar = () => {
             className="me-auto"
             onSubmit={(e) => {
               e.preventDefault();
-              getSearchedMoviesFetch(token, searchQuery);
-              getSearchedSeriesFetch(token, searchQuery);
+              getSearchedMoviesFetch(token ?? "", searchQuery);
+              getSearchedSeriesFetch(token ?? "", searchQuery);
               navigate("/search");
             }}
           >

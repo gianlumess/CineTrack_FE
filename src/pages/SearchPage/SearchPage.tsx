@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { Col, Container, Image, Row } from "react-bootstrap";
-import MyShowsGallery from "../../components/MyShowsGallery/MyShowsGallery";
 import { Link } from "react-router-dom";
 
 const SearchPage = () => {

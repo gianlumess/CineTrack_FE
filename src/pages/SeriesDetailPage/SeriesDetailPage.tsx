@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { SeriesCredits, SeriesDetails } from "../../interfaces/SeriesInterface";
@@ -26,7 +26,6 @@ const SeriesDetailPage = () => {
   const token = localStorage.getItem("token")!;
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
   const [comment, setComment] = useState("");
   const { seriesId } = useParams<{ seriesId: string }>();
   const userInfo = useSelector((state: RootState) => state.user.user);
@@ -36,43 +35,49 @@ const SeriesDetailPage = () => {
   const similarSeries = useSelector((state: RootState) => state.series.similarSeries);
   const myComment = useSelector((state: RootState) => state.user.myComment);
 
-  const getSeriesDetailsFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/${seriesId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const seriesData: SeriesDetails = await response.json();
-        dispatch(setSeriesDetailsAction(seriesData));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare i dati della serie TV");
+  const getSeriesDetailsFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/series/${seriesId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const seriesData: SeriesDetails = await response.json();
+          dispatch(setSeriesDetailsAction(seriesData));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare i dati della serie TV");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [seriesId, dispatch]
+  );
 
-  const getSeriesCreditsFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/${seriesId}/credits`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const seriesData: SeriesCredits = await response.json();
-        dispatch(setSeriesCreditsAction(seriesData));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare i crediti della serie TV");
+  const getSeriesCreditsFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/series/${seriesId}/credits`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const seriesData: SeriesCredits = await response.json();
+          dispatch(setSeriesCreditsAction(seriesData));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare i crediti della serie TV");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [seriesId, dispatch]
+  );
 
   const saveSeriesInListFetch = async (token: string, series: UserSeriesDTO) => {
     try {
@@ -90,69 +95,78 @@ const SeriesDetailPage = () => {
         await dispatch(getSeriesInListFetch(token));
       } else {
         const errorMessage = await response.json();
-        setError(errorMessage.message || "errore nel salvare la serie nella tua lista");
+        console.log(errorMessage.message || "errore nel salvare la serie nella tua lista");
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const getSimilarSeriesFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/${seriesId}/similar`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(setSimilarSeriesAction(data.results));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare i dati delle serie");
+  const getSimilarSeriesFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/series/${seriesId}/similar`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(setSimilarSeriesAction(data.results));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare i dati delle serie");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [seriesId, dispatch]
+  );
 
-  const getMyCommentFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/me/${seriesId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(getMyCommentAction(data));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare il commento");
+  const getMyCommentFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/me/${seriesId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(getMyCommentAction(data));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare il commento");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [seriesId, dispatch]
+  );
 
-  const getMyRatingFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings/me/${seriesId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(getMyRatingAction(data));
-      } else {
-        const erroMessage = await response.json();
-        setError(erroMessage.message || "errore nel recuperare la valutazione");
+  const getMyRatingFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings/me/${seriesId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(getMyRatingAction(data));
+        } else {
+          const erroMessage = await response.json();
+          console.log(erroMessage.message || "errore nel recuperare la valutazione");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [seriesId, dispatch]
+  );
 
   const saveCommentFetch = async (token: string, rating: NewCommentDTO) => {
     try {
@@ -170,7 +184,7 @@ const SeriesDetailPage = () => {
         await getMyCommentFetch(token);
       } else {
         const errorMessage = await response.json();
-        setError(errorMessage.message || "errore nel salvare il commento");
+        console.log(errorMessage.message || "errore nel salvare il commento");
       }
     } catch (err) {
       console.log(err);
@@ -202,13 +216,23 @@ const SeriesDetailPage = () => {
       .catch(() => {
         setIsLoading(false);
       });
-  }, [seriesId]);
+  }, [
+    seriesId,
+    dispatch,
+    getMyCommentFetch,
+    getMyRatingFetch,
+    getSeriesCreditsFetch,
+    getSeriesDetailsFetch,
+    getSimilarSeriesFetch,
+    token,
+  ]);
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading && seriesDetails && (
         <>
           <Mynavbar />
+
           <Row
             style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1280${seriesDetails?.backdrop_path})` }}
             className={styles.seriesDetails__topBanner}
@@ -241,7 +265,7 @@ const SeriesDetailPage = () => {
                 <Button
                   variant="danger"
                   onClick={() => {
-                    deleteSeriesFromListFetch(token, seriesId, dispatch);
+                    if (seriesId) deleteSeriesFromListFetch(token, seriesId, dispatch);
                   }}
                   className="mb-3 ms-auto"
                 >
@@ -252,8 +276,10 @@ const SeriesDetailPage = () => {
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      const showStatus = "WATCHED";
-                      saveSeriesInListFetch(token, { showStatus, seriesId });
+                      if (seriesId) {
+                        const showStatus = "WATCHED";
+                        saveSeriesInListFetch(token, { showStatus, seriesId });
+                      }
                     }}
                     className="mb-3 ms-auto"
                   >
@@ -261,8 +287,10 @@ const SeriesDetailPage = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      const showStatus = "TO_WATCH";
-                      saveSeriesInListFetch(token, { showStatus, seriesId });
+                      if (seriesId) {
+                        const showStatus = "TO_WATCH";
+                        saveSeriesInListFetch(token, { showStatus, seriesId });
+                      }
                     }}
                     className={`ms-auto ${styles.seriesDetails__topBanner__primaryButton}`}
                   >

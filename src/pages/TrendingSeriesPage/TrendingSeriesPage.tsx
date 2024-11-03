@@ -7,7 +7,7 @@ import { Iseries } from "../../interfaces/SeriesInterface";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 
 const TrendingSeriesPage = () => {
-  const token: string = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   const [movies, setMovies] = useState<Iseries[]>([]);
   const [page, setPage] = useState(1);
 
@@ -28,22 +28,11 @@ const TrendingSeriesPage = () => {
   };
 
   const loadMoreMovies = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
+    if (token) {
+      const nextPage = page + 1;
+      setPage(nextPage);
 
-    getPopularSeriesFetch(token, nextPage);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  const loadPreviousMovies = () => {
-    if (page > 1) {
-      const previousPage = page - 1;
-      setPage(previousPage);
-      getPopularSeriesFetch(token, previousPage);
+      getPopularSeriesFetch(token, nextPage);
 
       window.scrollTo({
         top: 0,
@@ -52,8 +41,23 @@ const TrendingSeriesPage = () => {
     }
   };
 
+  const loadPreviousMovies = () => {
+    if (token) {
+      if (page > 1) {
+        const previousPage = page - 1;
+        setPage(previousPage);
+        getPopularSeriesFetch(token, previousPage);
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   useEffect(() => {
-    getPopularSeriesFetch(token, 1);
+    if (token) getPopularSeriesFetch(token, 1);
   }, [token]);
 
   return (

@@ -28,7 +28,6 @@ const RegistrationPage = () => {
         body: JSON.stringify(dataRegistration),
       });
       if (response.ok) {
-        const data = await response.json();
         navigate("/login");
       } else {
         const errorMessage = await response.json();

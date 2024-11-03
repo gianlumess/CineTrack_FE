@@ -14,10 +14,9 @@ const StarRating: React.FC<StarRatingProps> = ({ getMyRatingFetch }) => {
   const token = localStorage.getItem("token");
   const [currentRating, setCurrentRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
-  const [error, setError] = useState("");
   const maxStars = 5;
   const { movieId } = useParams<{ movieId: string }>();
-  const { seriesId } = useParams<{ seriesId: String }>();
+  const { seriesId } = useParams<{ seriesId: string }>();
 
   const saveRatingFetch = async (token: string, rating: NewRatingDTO) => {
     try {
@@ -35,7 +34,7 @@ const StarRating: React.FC<StarRatingProps> = ({ getMyRatingFetch }) => {
         await getMyRatingFetch(token);
       } else {
         const errorMessage = await response.json();
-        setError(errorMessage.message || "errore nel salvare la valutazione");
+        console.log(errorMessage.message || "errore nel salvare la valutazione");
       }
     } catch (err) {
       console.log(err);
@@ -47,9 +46,11 @@ const StarRating: React.FC<StarRatingProps> = ({ getMyRatingFetch }) => {
       rating: rating,
     };
     setCurrentRating(rating);
-    saveRatingFetch(token, newRating);
-    // Qui puoi aggiungere la logica per inviare la valutazione al server
-    console.log("Valutazione inviata:", rating);
+    if (token !== null) {
+      saveRatingFetch(token, newRating);
+    } else {
+      console.error("Token is null");
+    }
   };
 
   return (

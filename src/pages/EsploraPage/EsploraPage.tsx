@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import Mynavbar from "../../components/Navbar/Mynavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,69 +18,81 @@ const EsploraPage = () => {
   const trendingSeries = useSelector((state: RootState) => state.series.trendingSeries);
   const topRatedSeries = useSelector((state: RootState) => state.series.topRatedSeries);
 
-  const getPopularMoviesFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/trending`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(setTrendingMoviesAction(data.results));
+  const getPopularMoviesFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/trending`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(setTrendingMoviesAction(data.results));
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [dispatch]
+  );
 
-  const getPopularSeriesFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/trending`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(setTrendingSeriesAction(data.results));
+  const getPopularSeriesFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/series/trending`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(setTrendingSeriesAction(data.results));
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [dispatch]
+  );
 
-  const getTopRatedMoviesFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/top_rated`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(setTopRatedMoviesAction(data.results));
+  const getTopRatedMoviesFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/top_rated`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(setTopRatedMoviesAction(data.results));
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [dispatch]
+  );
 
-  const getTopRatedSeriesFetch = async (token: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/series/top_rated`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(setTopRatedSeriesAction(data.results));
+  const getTopRatedSeriesFetch = useCallback(
+    async (token: string) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/series/top_rated`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(setTopRatedSeriesAction(data.results));
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (token) {
@@ -91,7 +103,7 @@ const EsploraPage = () => {
     } else {
       navigate("/login");
     }
-  }, [token]);
+  }, [token, getPopularMoviesFetch, getPopularSeriesFetch, getTopRatedMoviesFetch, getTopRatedSeriesFetch, navigate]);
 
   return (
     <>

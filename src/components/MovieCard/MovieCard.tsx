@@ -1,10 +1,11 @@
 import { Card, Carousel } from "react-bootstrap";
-import { MovieCarouselProps } from "../../interfaces/MoviesInterface";
+import { Imovie, MovieCarouselProps } from "../../interfaces/MoviesInterface";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from "./MovieCard.module.scss";
 import { Link } from "react-router-dom";
+import { Iseries } from "../../interfaces/SeriesInterface";
 
 const MovieCard: React.FC<MovieCarouselProps> = ({ content }) => {
   // Configurazione delle impostazioni del carosello
@@ -47,7 +48,7 @@ const MovieCard: React.FC<MovieCarouselProps> = ({ content }) => {
     <Slider {...settings}>
       {content.map((show) => (
         <Carousel.Item className={styles.movieCard__carouselItem} key={show.id}>
-          <Link to={show.title ? `/movie-detail/${show.id}` : `/series-detail/${show.id}`}>
+          <Link to={(show as Imovie).title ? `/movie-detail/${show.id}` : `/series-detail/${show.id}`}>
             <Card className="text-center bg-dark text-light border-0">
               <Card.Img
                 className={`${styles.movieCard__cardImage}`}
@@ -57,10 +58,10 @@ const MovieCard: React.FC<MovieCarouselProps> = ({ content }) => {
                     ? `https://image.tmdb.org/t/p/w500${show.poster_path}`
                     : "https://via.placeholder.com/500x750?text=No+Image+Available"
                 }
-                alt={show.title || show.name}
+                alt={(show as Imovie).title || (show as Iseries).name}
               />
               <Card.Body>
-                <Card.Title>{show.title || show.name}</Card.Title>
+                <Card.Title>{(show as Imovie).title || (show as Iseries).name}</Card.Title>
               </Card.Body>
             </Card>
           </Link>
