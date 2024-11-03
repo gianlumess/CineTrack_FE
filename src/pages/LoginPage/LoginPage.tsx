@@ -17,7 +17,7 @@ const LoginPage = () => {
 
   const loginUserFetch = async (dataLogin: DataLogin) => {
     try {
-      const response = await fetch("http://localhost:3001/authorization/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/authorization/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
